@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-echo "Currently only work on Ubuntu destro"
+echo "Currently only work on Ubuntu distro"
 
 # Update Repo
 sudo apt-get update
