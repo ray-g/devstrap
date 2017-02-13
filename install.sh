@@ -16,6 +16,11 @@ function main() {
         exit
     fi
 
+    if [ "$HOME" != "$PWD" ]; then
+        local CURRENT_DIR=$PWD
+        cd $HOME
+    fi
+
     local headless
     promote_yn "Is this a headless machine?" "headless"
 
@@ -57,6 +62,10 @@ function main() {
     # Install Ant
 
     # Install Nginx
+
+    if [ ! -z "$CURRENT_DIR" ]; then
+        cd $CURRENT_DIR
+    fi
 }
 
 main
