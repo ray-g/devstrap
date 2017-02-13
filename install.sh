@@ -1,32 +1,64 @@
 #!/usr/bin/env bash
 
-echo "Currently only work on Ubuntu distro"
+DIR="${BASH_SOURCE%/*}"
+if [[ ! -d "$DIR" ]]; then DIR="$PWD"; fi
+. "$DIR/utils.sh"
 
-# Update Repo
-sudo apt-get update
+parse_options $@
 
-# Install ZSH and Oh-My-Zsh
+DEBUG_BEGIN
 
-# Install Tmux
+function main() {
+    local continue
+    echo "Currently only work on Ubuntu distro."
+    promote_yn "Do you wish to continue?" "continue"
+    if [ $continue -eq $NO ]; then
+        exit
+    fi
 
-# Install EMACS
+    local headless
+    promote_yn "Is this a headless machine?" "headless"
 
-# Install Docker
+    # Update Repo
+    DRYRUN sudo apt-get update
 
-# Install VS-Code
+    # Install GIT
+    DRYRUN sudo apt-get install git -y
 
-# Install Golang
+    # Install ZSH and Oh-My-Zsh
+    DRYRUN sudo apt-get install zsh -y
 
-# Install Ruby
+    # Install Tmux
+    DRYRUN sudo apt-get install tmux -y
 
-# Install Node.JS
+    # Install EMACS
+    if [ $headless -eq $NO ]; then
+        DRYRUN sudo apt-get install emacs -y
+    else
+        DRYRUN sudo apt-get install emacs-nox -y
+    fi
 
-# Install Python & PIP
+    # Install Docker
 
-# Install JDK
+    # Install VS-Code
 
-# Install Maven
+    # Install Golang
 
-# Install Ant
+    # Install Ruby
 
-# Install Nginx
+    # Install Node.JS
+
+    # Install Python & PIP
+
+    # Install JDK
+
+    # Install Maven
+
+    # Install Ant
+
+    # Install Nginx
+}
+
+main
+
+DEBUG_END
