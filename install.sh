@@ -2,7 +2,7 @@
 
 DIR="${BASH_SOURCE%/*}"
 if [[ ! -d "$DIR" ]]; then DIR="$PWD"; fi
-. "$DIR/utils.sh"
+. "$DIR/scripts/utils.sh"
 
 parse_options $@
 
