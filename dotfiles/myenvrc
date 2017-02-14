@@ -1,0 +1,251 @@
+# -*- mode: shell-script;  -*-
+# vim: ft=shell: sw=2:
+
+#################################################################
+# PATH Environments
+#################################################################
+
+#
+# Copied from .zshrc. Initialize PATH
+#
+export PATH="${HOME}/bin:/usr/local/bin:/usr/bin:/bin:/usr/bin/X11"
+
+#
+# Go Lang Environment Variables
+#
+export GO_HOME=/usr/local/go
+export PATH=${GO_HOME}/bin:$PATH
+GOPATH_ROOT=${HOME}/.gopath
+GOPATH_CACHE=${GOPATH_ROOT}/cache
+GOPATH_PKGS=${GOPATH_ROOT}/pkgs
+GOPATH_PROJECTS=${HOME}/projects/go_projects
+# export GOPATH=$GOPATH_PKGS:$GOPATH_PROJECTS
+# export PATH=${GOPATH_PKGS}/bin:${GOPATH_PROJECTS}/bin:$PATH
+export GOPATH=$GOPATH_CACHE:$GOPATH_PKGS:$GOPATH_PROJECTS
+export PATH=${GOPATH_CACHE}/bin:${GOPATH_PKGS}/bin:${GOPATH_PROJECTS}/bin:$PATH
+# alias gopkgsync='rsync -aAXv ${GOPATH_CACHE}/ ${GOPATH_PKGS}'
+alias gopkgclean='[ -d "$GOPATH_CACHE" ] && rm -rf ${GOPATH_CACHE}/*'
+
+#
+# Java Environment Variables
+#
+export JDK_HOME=/opt/java/jdk1.7.0_79
+export JRE_HOME=${JDK_HOME}/jre
+export SDK_HOME=${JDK_HOME}
+export JAVA_BINDIR=${JDK_HOME}/bin
+export JAVA_HOME=${JDK_HOME}
+export JAVA_ROOT=${JDK_HOME}
+export CLASSPATH=.:${JAVA_HOME}/lib:${JRE_HOME}/lib
+export PATH=${JAVA_HOME}/bin:$PATH
+
+#
+# Maven Environment Variables
+#
+export MAVEN_HOME=/opt/maven/apache-maven-3.3.3
+export MAVEN_BIN=${MAVEN_HOME}/bin
+export PATH=${MAVEN_BIN}:$PATH
+
+#
+# Ant Environment Variables
+#
+export ANT_HOME=/opt/ant/apache-ant-1.9.6
+export ANT_BIN=${ANT_HOME}/bin
+export ANT=${ANT_BIN}/ant
+export PATH=${ANT_BIN}:$PATH
+
+#
+# Gradle Environment Variables
+#
+export GRADLE_HOME=/opt/gradle/gradle-2.12
+export GRADLE_BIN=${GRADLE_HOME}/bin
+export GRADLE=${GRADLE_BIN}/gradle
+export PATH=${GRADLE_BIN}:$PATH
+
+#
+# P4 Variables
+#
+export P4CONFIG=.p4config
+
+#
+# Add /sbin folder to PATH
+#
+export PATH=/sbin:/usr/local/bin:$PATH
+
+#
+# Makeself Environment Variables
+#
+export MAKESELF_BIN=/opt/makeself/makeself-2.2.0.37
+export PATH=${MAKESELF_BIN}:$PATH
+
+#
+# Add eclipse folder to PATH
+#
+#export PATH=/opt/eclipse:$PATH
+
+#
+# Functions
+#
+
+# Extract files
+function unpkg()
+{
+    if [ -z "$1" ]; then
+        # display usage if no parameters given
+        echo "Usage: extract <path/file_name>.<zip|rar|bz2|gz|tar|tbz2|tgz|Z|7z|xz|ex|tar.bz2|tar.gz|tar.xz>"
+    else
+        if [ -f $1 ] ; then
+            # NAME=${1%.*}
+            # mkdir $NAME && cd $NAME
+            case $1 in
+                *.tar.bz2)   tar xvjf $1               ;;
+                *.tar.gz)    tar xvzf $1               ;;
+                *.tar.xz)    tar xvJf $1               ;;
+                *.lzma)      unlzma $1                 ;;
+                *.bz2)       bunzip2 $1                ;;
+                *.rar)       unrar x -ad $1            ;;
+                *.gz)        gunzip $1                 ;;
+                *.tar)       tar xvf $1                ;;
+                *.tbz2)      tar xvjf $1               ;;
+                *.tgz)       tar xvzf $1               ;;
+                *.zip)       unzip $1                  ;;
+                *.Z)         uncompress $1             ;;
+                *.7z)        7z x $1                   ;;
+                *.xz)        unxz $1                   ;;
+                *.exe)       cabextract $1             ;;
+                *)           echo "extract: '$1' - unknown archive method" ;;
+            esac
+        else
+            echo "$1 - file does not exist"
+        fi
+    fi
+}
+
+function cdl()
+{
+    if [ -d "$@" ]; then
+        cd "$@" && pwd ; ls;
+    else
+        echo "$@ doesn't exists."
+    fi
+}
+
+function chpwd()
+{
+    ls;
+}
+
+#################################################################
+# alias
+#################################################################
+
+# shorter
+alias aa='ag --ignore "*.[js|cache|tpm|log]*"'
+alias a='ag'
+alias e='emacsclient -n'
+alias stracef='strace -e trace=file'
+alias cls='clear'
+alias lns='ln -s'
+alias tf='tail -f'
+alias cl='cdl'
+alias dfh='df -h'
+alias duh='du -h'
+alias wl='wc -l'
+alias cldiff='colordiff'
+alias deltree='rm -rf'
+alias f='find ./ -iname'
+alias ff='find ./ -iname'
+alias lg='ls -al | grep'
+alias fstab='cat /etc/fstab'
+alias findapp='ps aux | grep'
+alias killapp='sudo kill -9'
+alias qrpm='rpm -qa | grep'
+
+# directories
+alias cds='echo "`pwd`" > ~/.cdsave'
+alias cdb='cd "`cat ~/.cdsave`"'
+
+# myenvrc
+alias myenv='e ~/.myenvrc'
+alias reload='source ~/.myenvrc'
+
+. ~/bin/z/z.sh
+
+#################################################################
+# Oh-My-Zsh Theme
+#################################################################
+DISABLE_AUTO_TITLE="true"
+DISABLE_AUTO_UPDATE="true"
+
+function get_pwd
+{
+    echo "${PWD/$HOME/~}"
+}
+
+function put_spacing
+{
+    local git=$(git_prompt_info)
+    if [ ${#git} != 0 ]; then
+        ((git=${#git} - 10))
+    else
+        git=0
+    fi
+
+    local termwidth
+    (( termwidth = ${COLUMNS} - 6 - ${#USER} - ${#HOST} - ${#$(get_pwd)} - ${git} ))
+
+    local spacing=""
+    for i in {1..$termwidth}; do
+        spacing="${spacing} "
+    done
+    echo $spacing
+}
+
+function git_prompt_info() {
+    ref=$(git symbolic-ref HEAD 2> /dev/null) || return
+    echo "$(parse_git_dirty)$ZSH_THEME_GIT_PROMPT_PREFIX$(git_current_branch)$ZSH_THEME_GIT_PROMPT_SUFFIX"
+}
+
+ZSH_THEME_GIT_PROMPT_PREFIX="[git:"
+ZSH_THEME_GIT_PROMPT_SUFFIX="]$reset_color"
+ZSH_THEME_GIT_PROMPT_DIRTY="$fg[red]+"
+ZSH_THEME_GIT_PROMPT_CLEAN="$fg[green]"
+
+PROMPT='%{$fg_bold[grey]%}╭%n@%m: %{$fg_bold[grey]%}$(get_pwd)$(put_spacing) $(git_prompt_info)
+%{$fg_bold[grey]%}╰${ret_status}%{$reset_color%} '
+
+if [ -z "${MY_TITLE_NAME+xxx}" ]; then
+    MY_TITLE_NAME="Terminal"
+fi
+
+if [ -z "${MY_TITLE_NUM+xxx}" ]; then
+    MY_TITLE_NUM="0"
+fi
+
+function update_title()
+{
+    title "$MY_TITLE_NAME ☢#$MY_TITLE_NUM"
+    #title "$MY_TITLE_NAME"
+}
+function set_title_num()
+{
+    MY_TITLE_NUM=$1
+    update_title
+}
+function set_title_name()
+{
+    MY_TITLE_NAME=$1
+    update_title
+}
+function set_title()
+{
+    MY_TITLE_NAME=$1
+    MY_TITLE_NUM=$2
+    update_title
+}
+alias tl='set_title'
+alias tt='set_title_name'
+alias tn='set_title_num'
+
+#
+# End of .myenvrc
+#
