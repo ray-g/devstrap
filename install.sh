@@ -79,7 +79,7 @@ function main_entry() {
     # Follow this link https://golang.org/doc/install
     local GO_VER="1.7.5"
     local GO_OS="linux"
-    local GO_ARCH="linux-amd64"
+    local GO_ARCH="amd64"
     DRYRUN wget https://storage.googleapis.com/golang/go${GO_VER}.${GO_OS}-${GO_ARCH}.tar.gz
     DRYRUN tar -C /usr/local -xzf go${GO_VER}.${GO_OS}-${GO_ARCH}.tar.gz
 
