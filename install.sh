@@ -2,7 +2,10 @@
 
 DIR="${BASH_SOURCE%/*}"
 if [[ ! -d "$DIR" ]]; then DIR="$PWD"; fi
-. "$DIR/scripts/utils.sh"
+. "${DIR}/scripts/utils.sh"
+
+# if Ubuntu
+. "${DIR}/scripts/install/ubuntu/helper.sh"
 
 parse_options $@
 
