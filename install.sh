@@ -32,7 +32,7 @@ function main_entry() {
 
     # Install ZSH and Oh-My-Zsh
     execute "sudo apt-get install zsh -y"
-    execute "curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh | sh -"
+    execute "sh -c \"$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)\""
 
     # Install Tmux
     execute "sudo apt-get install tmux -y"
