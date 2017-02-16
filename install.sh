@@ -4,14 +4,11 @@ DIR="${BASH_SOURCE%/*}"
 if [[ ! -d "$DIR" ]]; then DIR="$PWD"; fi
 . "${DIR}/scripts/utils.sh"
 
-# if Ubuntu
-. "${DIR}/scripts/install/ubuntu/helper.sh"
-
 parse_options $@
 
 DEBUG_BEGIN
 
-function main_entry() {
+function main() {
     local continue
     print_in_red "Currently only work on Ubuntu Xenial (16.04) distro.\n"
     promote_yn "Do you wish to continue?" "continue"
@@ -113,6 +110,6 @@ function main_entry() {
     fi
 }
 
-main_entry
+main
 
 DEBUG_END
