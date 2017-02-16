@@ -18,11 +18,11 @@ function parse_options() {
 
         case $key in
             -d|--debug)
-                echo "debug enabled"
+                print_in_purple "debug enabled\n"
                 _DEBUG="on"
                 ;;
             -r|--dryrun)
-                echo "dryrun enabled"
+                print_in_purple "dryrun enabled\n"
                 _DRYRUN="on"
                 ;;
             -h|--help)
