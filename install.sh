@@ -27,8 +27,8 @@ function main_entry() {
     # Update Repo
     execute "sudo apt-get update"
 
-    # Install GIT, CURL, WGET
-    execute "sudo apt-get install git curl wget -y"
+    # Install GIT, CURL, WGET, HTOP, ColorDiff
+    execute "sudo apt-get install git curl wget htop colordiff -y"
 
     # Install ZSH and Oh-My-Zsh
     execute "sudo apt-get install zsh -y"
