@@ -43,6 +43,9 @@ function main_entry() {
     # Install FZF
     execute "git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf"
     execute "~/.fzf/install --all"
+    
+    # Install AG
+    execute "sudo apt-get install silversearcher-ag -y"
 
     # Install EMACS
     if [ $headless -eq $NO ]; then
