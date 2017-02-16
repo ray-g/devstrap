@@ -10,7 +10,7 @@ DEBUG_BEGIN
 
 function main_entry() {
     local continue
-    echo "Currently only work on Ubuntu Xenial (16.04) distro."
+    print_in_red "Currently only work on Ubuntu Xenial (16.04) distro.\n"
     promote_yn "Do you wish to continue?" "continue"
     if [ $continue -eq $NO ]; then
         exit
@@ -43,7 +43,7 @@ function main_entry() {
     # Install FZF
     execute "git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf"
     execute "~/.fzf/install --all"
-    
+
     # Install AG
     execute "sudo apt-get install silversearcher-ag -y"
 
@@ -67,7 +67,7 @@ function main_entry() {
     execute "sudo usermod -aG docker $(whoami)"
     execute "sudo mkdir /docker"
     execute "sudo ln -s /docker /var/lib/docker"
-    execute "sudo echo "\nDOCKER_OPTS=\"-g /docker\"\n" >> /etc/default/docker"
+    execute "sudo echo \"DOCKER_OPTS=\\\"-g /docker\\\"\" >> /etc/default/docker"
     execute "sudo pip install docker-compose"
 
     # Install VS-Code
