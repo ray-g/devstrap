@@ -4,6 +4,32 @@ DIR="${BASH_SOURCE%/*}"
 if [[ ! -d "$DIR" ]]; then DIR="$PWD"; fi
 . "${DIR}/scripts/utils.sh"
 
+DIALOG_HEIGHT=20
+DIALOG_WIDTH=80
+ITEMS_COUNT=3
+
+result=$(
+    whiptail --title "Select packages you want to install"\
+             --ok-button "Done" --nocancel\
+             --checklist "Packages" $DIALOG_HEIGHT $DIALOG_WIDTH $ITEMS_COUNT\
+             "Golang" "Golang and recommended go packages" OFF\
+             "NodeJS" "NodeJS and recommended node packages" OFF\
+             "Ruby" "Ruby and recommended ruby gems" OFF\
+             3>&2 2>&1 1>&3-)
+
+selected=3
+for item in $result
+do
+    cmd="${item}=${selected}"
+    eval $cmd
+done
+
+function select_package() {
+    [ "$1" == 3 ]
+}
+
+if select_package "Golang"; then echo "selected golang"; fi
+
 parse_options $@
 
 DEBUG_BEGIN
