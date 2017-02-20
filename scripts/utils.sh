@@ -39,28 +39,10 @@ function parse_options() {
 
 YES=0
 NO=1
-
-function print_callstack() {
-    echo "Callstacks:"
-    local frame=1
-    while caller $frame; do
-        ((frame++));
-    done
-    echo "$*"
-}
-
-function error_msg() {
-    funcname=$1
-    shift
-    print_error "Error occured in \"$0\", when calling \"$funcname\" with \"$@\"."
-    print_callstack
-}
-
 function promote_yn() {
     if [ "$#" -ne 2 ]; then
         print_error "ERROR with promote_yn. Usage: promote_yn <Message> <Variable Name>"
-        error_msg $FUNCNAME $@
-        exit 1
+        print_fatal_error_msg_and_exit $FUNCNAME $@
     fi
 
     eval ${2}=$NO
@@ -202,6 +184,18 @@ function is_git_repository() {
     git rev-parse &> /dev/null
 }
 
+function sync_repo() {
+    local repo_uri="$1"
+    local repo_path="$2"
+
+    if [ ! -e "$repo_path" ]; then
+        mkdir -p "$repo_path"
+        git clone "$repo_uri" "$repo_path"
+    else
+        cd "$repo_path" && git pull origin master && cd - >/dev/null
+    fi
+}
+
 function is_supported_version() {
     declare -a v1=(${1//./ })
     declare -a v2=(${2//./ })
@@ -253,6 +247,10 @@ else
     NORMAL=""
 fi
 
+function println() {
+    printf "%s\n" $1
+}
+
 function print_in_color() {
     printf "%b" \
         "$2" \
@@ -292,6 +290,38 @@ function print_error_stream() {
     while read -r line; do
         print_error "↳ ERROR: $line"
     done
+}
+
+function print_call_stack() {
+    # Print out the stack trace described by $function_stack
+    local -r SKIP_STACKS=2
+    if [ ${#FUNCNAME[@]} -gt 2 ]
+    then
+        print_error "↳ Callstacks:"
+        for ((i=${SKIP_STACKS};i<${#FUNCNAME[@]};i++))
+        do
+            print_error "  $[$i-${SKIP_STACKS}]: ${BASH_SOURCE[$i]}:${BASH_LINENO[$i-1]} ${FUNCNAME[$i]}(...)"
+        done
+    fi
+    println ''
+}
+
+function print_callstack() {
+    print_error "Callstacks:"
+    local frame=1
+    while caller $frame; do
+        ((frame++));
+    done
+    println ''
+}
+
+function print_fatal_error_msg_and_exit() {
+    funcname=$1
+    shift
+    print_error "Error occured in \"$0\", when calling \"$funcname\" with \"$@\"."
+    # print_callstack
+    print_call_stack
+    exit 1
 }
 
 function print_result() {
@@ -359,5 +389,101 @@ function show_spinner() {
         else
             printf "\r"
         fi
+    done
+}
+
+############################################################
+# Package Conf File Reader
+############################################################
+
+declare -a def_packages
+declare -A sel_packages
+declare package_count=0
+
+function read_package_conf() {
+    local conf_file=$1
+    local OLD_IFS=$IFS
+
+    while IFS=$'\n' read -r line; do
+        if [[ $line != [#]* ]]; then
+            def_packages[package_count]="${line}"
+            ((++package_count))
+
+            IFS=:
+            read pkg_name pkg_desc pkg_type <<<"$line"
+            if [[ -z ${sel_packages["$pkg_name"]} ]]; then
+                sel_packages["$pkg_name"]=0
+            else
+                IFS=$OLD_IFS
+                print_error "Duplicated packages found! name: $pkg_name, desc: $pkg_desc, type: $pkg_type"
+                print_fatal_error_msg_and_exit $FUNCNAME $@
+            fi
+        fi
+    done < $conf_file
+
+    IFS=$OLD_IFS
+}
+
+function print_packages() {
+    local OLD_IFS=$IFS
+    IFS=:
+    for pkg in "${def_packages[@]}"; do
+        read pkg_name pkg_desc pkg_type <<<"${pkg}"
+        printf "pkg name: %s, pkg desc: %s, pkg type: %s\n" "${pkg_name}" "${pkg_desc}" "${pkg_type}"
+    done
+    IFS=$OLD_IFS
+
+    for key in "${!sel_packages[@]}"; do
+        printf "pkg name: $key, selected: ${sel_packages[${key}]}\n"
+    done
+}
+
+function select_package() {
+    pkg_name=$1
+    if [[ -z ${sel_packages[${pkg_name}]} ]]; then
+        print_error "$pkg_name not found!"
+        print_fatal_error_msg_and_exit $FUNCNAME $@
+    else
+        sel_packages["$pkg_name"]=1
+    fi
+}
+
+function has_selected_package() {
+    pkg_name=$1
+    if [[ -z ${sel_packages[${pkg_name}]} ]]; then
+        print_error "$pkg_name not found!"
+        print_fatal_error_msg_and_exit $FUNCNAME $@
+    else
+        if [[ ${sel_packages[${pkg_name}]} == 1 ]]; then
+            return 0 # true
+        else
+            return 1 # false
+        fi
+    fi
+}
+
+function do_box_select_package() {
+    DIALOG_HEIGHT=20
+    DIALOG_WIDTH=80
+    ITEMS_COUNT=${#def_packages[@]}
+
+    declare -a options
+    local OLD_IFS=$IFS
+    IFS=:
+    for pkg in "${def_packages[@]}"
+    do
+        read pkg_name pkg_desc pkg_type <<<"${pkg}"
+        options+=("${pkg_name}" "${pkg_desc}" "OFF")
+    done
+    IFS=$OLD_IFS
+
+    result=$( whiptail --title "Select packages you want to install"\
+                       --ok-button "Done" --nocancel\
+                       --checklist "Packages" $DIALOG_HEIGHT $DIALOG_WIDTH $ITEMS_COUNT\
+                       "${options[@]}"\
+                       3>&2 2>&1 1>&3-)
+
+    for item in $result; do
+        select_package ${item//\"}
     done
 }

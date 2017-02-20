@@ -1,141 +1,14 @@
 #!/usr/bin/env bash
 
-DIR="${BASH_SOURCE%/*}"
-if [[ ! -d "$DIR" ]]; then DIR="$PWD"; fi
-. "${DIR}/scripts/utils.sh"
-
-DIALOG_HEIGHT=20
-DIALOG_WIDTH=80
-ITEMS_COUNT=3
-
-result=$(
-    whiptail --title "Select packages you want to install"\
-             --ok-button "Done" --nocancel\
-             --checklist "Packages" $DIALOG_HEIGHT $DIALOG_WIDTH $ITEMS_COUNT\
-             "Golang" "Golang and recommended go packages" OFF\
-             "NodeJS" "NodeJS and recommended node packages" OFF\
-             "Ruby" "Ruby and recommended ruby gems" OFF\
-             3>&2 2>&1 1>&3-)
-
-selected=3
-for item in $result
-do
-    cmd="${item}=${selected}"
-    eval $cmd
-done
-
-function select_package() {
-    [ "$1" == 3 ]
-}
-
-if select_package "Golang"; then echo "selected golang"; fi
+BASE_DIR="${BASH_SOURCE%/*}"
+if [[ ! -d "$BASE_DIR" ]]; then BASE_DIR="$PWD"; fi
+. "${BASE_DIR}/scripts/utils.sh"
 
 parse_options $@
 
-DEBUG_BEGIN
+read_package_conf "${BASE_DIR}/scripts/install/ubuntu/package.conf"
+# print_packages
 
-function main() {
-    local continue
-    print_in_red "Currently only work on Ubuntu Xenial (16.04) distro.\n"
-    promote_yn "Do you wish to continue?" "continue"
-    if [ $continue -eq $NO ]; then
-        exit
-    fi
+do_box_select_package
 
-    if [ "$HOME" != "$PWD" ]; then
-        local CURRENT_DIR=$PWD
-        cd $HOME
-    fi
-
-    local headless
-    promote_yn "Is this a headless machine?" "headless"
-
-    # Update Repo
-    execute "sudo apt-get update"
-
-    # Install GIT, CURL, WGET, HTOP, ColorDiff
-    execute "sudo apt-get install git curl wget htop colordiff -y"
-
-    # Install ZSH and Oh-My-Zsh
-    execute "sudo apt-get install zsh -y"
-    execute "sh -c \"$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)\""
-
-    # Install Tmux
-    execute "sudo apt-get install tmux -y"
-    execute "git clone https://github.com/gpakosz/.tmux.git"
-    execute "ln -s -f .tmux/.tmux.conf"
-    execute "cp .tmux/.tmux.conf.local ."
-
-    # Install FZF
-    execute "git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf"
-    execute "~/.fzf/install --all"
-
-    # Install AG
-    execute "sudo apt-get install silversearcher-ag -y"
-
-    # Install EMACS
-    if [ $headless -eq $NO ]; then
-        execute "sudo apt-get install emacs -y"
-    else
-        execute "sudo apt-get install emacs-nox -y"
-    fi
-    execute "git clone https://github.com/seagle0128/.emacs.d"
-
-    # Install Python & PIP
-    execute "sudo apt-get install python python-pip -y"
-
-    # Install Docker
-    execute "sudo apt-key adv --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys 58118E89F3A912897C070ADBF76221572C52609D"
-    execute "echo \"deb https://apt.dockerproject.org/repo ubuntu-xenial main\" | sudo tee /etc/apt/sources.list.d/docker.list"
-    execute "sudo apt-get update"
-    execute "apt-cache policy docker-engine"
-    execute "sudo apt-get install -y docker-engine"
-    execute "sudo usermod -aG docker $(whoami)"
-    execute "sudo mkdir /docker"
-    execute "sudo ln -s /docker /var/lib/docker"
-    execute "sudo echo \"DOCKER_OPTS=\\\"-g /docker\\\"\" >> /etc/default/docker"
-    execute "sudo pip install docker-compose"
-
-    # Install VS-Code
-    if [ $headless -eq $NO ]; then
-        local vscode="vscode_stable_myenv.deb"
-        execute "wget https://vscode-update.azurewebsites.net/latest/linux-deb-x64/stable -O $vscode"
-        execute "sudo dpkg -i $vscode"
-        execute "rm $vscode"
-    fi
-
-    # Install Golang
-    # Follow this link https://golang.org/doc/install
-    local GO_VER="1.7.5"
-    local GO_OS="linux"
-    local GO_ARCH="amd64"
-    execute "wget https://storage.googleapis.com/golang/go${GO_VER}.${GO_OS}-${GO_ARCH}.tar.gz"
-    execute "tar -C /usr/local -xzf go${GO_VER}.${GO_OS}-${GO_ARCH}.tar.gz"
-
-    # Install Ruby
-    execute "apt-get install ruby2.3 ruby2.3-dev -y"
-    execute "sudo gem install rubocop"
-
-    # Install Node.JS
-    # https://nodejs.org/en/download/package-manager/#debian-and-ubuntu-based-linux-distributions
-    execute "curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash -"
-    execute "sudo apt-get install -y nodejs"
-    execute "npm install -g gulp-cli"
-
-    # Install JDK
-
-    # Install Maven
-
-    # Install Ant
-
-    # Install Nginx
-    execute "sudo apt-get install -y nginx"
-
-    if [ ! -z "$CURRENT_DIR" ]; then
-        cd $CURRENT_DIR
-    fi
-}
-
-main
-
-DEBUG_END
+if has_selected_package "golang"; then echo "selected golang"; fi
