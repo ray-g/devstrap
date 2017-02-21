@@ -91,6 +91,21 @@ function DEBUG_END() {
     DEBUG set +x
 }
 
+function trim_quote() {
+    local var="$*"
+    var="${var#\"}"   # remove leading quotes
+    var="${var%\"}"   # remove trailing quotes
+    # var=${var//\"}    # remove all quotes...
+    echo -n $var
+}
+
+function trim_space() {
+    local var="$*"
+    var="${var#"${var%%[![:space:]]*}"}"   # remove leading whitespace characters
+    var="${var%"${var##*[![:space:]]}"}"   # remove trailing whitespace characters
+    echo -n $var
+}
+
 function cmd_exists() {
     command -v "$1" &> /dev/null
 }
@@ -498,9 +513,6 @@ function do_box_select_package() {
                        3>&2 2>&1 1>&3-)
 
     for item in $result; do
-        select_package ${item//\"}
-        # item=${item%\"}
-        # item=${item#\"}
-        # select_package ${item}
+        select_package $(trim_quote $item)
     done
 }
