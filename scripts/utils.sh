@@ -396,9 +396,24 @@ function show_spinner() {
 # Package Conf File Reader
 ############################################################
 
-declare -a def_packages
+declare -A def_packages
 declare -A sel_packages
 declare package_count=0
+
+declare -r PACKAGE_IFS=:
+
+declare pkg_name=''
+declare pkg_desc=''
+declare pkg_type=''
+declare pkg_cmd=''
+
+function parse_package_def() {
+    if [[ -z $1 ]]; then
+        print_fatal_error_msg_and_exit $FUNCNAME $@
+    fi
+
+    read pkg_name pkg_desc pkg_type <<<"$1"
+}
 
 function read_package_conf() {
     local conf_file=$1
@@ -406,13 +421,12 @@ function read_package_conf() {
 
     while IFS=$'\n' read -r line; do
         if [[ $line != [#]* ]]; then
-            def_packages[package_count]="${line}"
-            ((++package_count))
-
-            IFS=:
-            read pkg_name pkg_desc pkg_type <<<"$line"
-            if [[ -z ${sel_packages["$pkg_name"]} ]]; then
+            IFS=$PACKAGE_IFS
+            parse_package_def "${line}"
+            if [[ -z ${sel_packages["$pkg_name"]} && -z ${def_packages["$pkg_name"]} ]]; then
+                def_packages["$pkg_name"]="${line}"
                 sel_packages["$pkg_name"]=0
+                ((++package_count))
             else
                 IFS=$OLD_IFS
                 print_error "Duplicated packages found! name: $pkg_name, desc: $pkg_desc, type: $pkg_type"
@@ -426,9 +440,9 @@ function read_package_conf() {
 
 function print_packages() {
     local OLD_IFS=$IFS
-    IFS=:
+    IFS=$PACKAGE_IFS
     for pkg in "${def_packages[@]}"; do
-        read pkg_name pkg_desc pkg_type <<<"${pkg}"
+        parse_package_def "${pkg}"
         printf "pkg name: %s, pkg desc: %s, pkg type: %s\n" "${pkg_name}" "${pkg_desc}" "${pkg_type}"
     done
     IFS=$OLD_IFS
@@ -469,11 +483,11 @@ function do_box_select_package() {
 
     declare -a options
     local OLD_IFS=$IFS
-    IFS=:
+    IFS=$PACKAGE_IFS
     for pkg in "${def_packages[@]}"
     do
-        read pkg_name pkg_desc pkg_type <<<"${pkg}"
-        options+=("${pkg_name}" "${pkg_desc}" "OFF")
+        parse_package_def "${pkg}"
+        options+=("${pkg_name}" "${pkg_desc}" "ON")
     done
     IFS=$OLD_IFS
 
