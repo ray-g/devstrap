@@ -498,9 +498,9 @@ function do_box_select_package() {
                        3>&2 2>&1 1>&3-)
 
     for item in $result; do
-        # select_package ${item//\"}
-        item=${item%\"}
-        item=${item#\"}
-        select_package ${item}
+        select_package ${item//\"}
+        # item=${item%\"}
+        # item=${item#\"}
+        # select_package ${item}
     done
 }
