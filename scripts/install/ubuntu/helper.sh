@@ -29,17 +29,11 @@ function autoremove() {
 function install_package() {
     declare -r PACKAGE="$2"
     declare -r PACKAGE_READABLE_NAME="$1"
-    declare -r EXECUTABLE_NAME="$3"
 
     if ! package_is_installed "$PACKAGE"; then
         execute "sudo apt-get install --allow-unauthenticated -qqy $PACKAGE" "$PACKAGE_READABLE_NAME"
         #                                      suppress output ─┘│
         #            assume "yes" as the answer to all prompts ──┘
-    elif ! cmd_exists "$EXECUTABLE_NAME"
-        local dir="${BASH_SOURCE%/*}"
-        if [[ ! -d "$dir" ]]; then dir="$PWD"; fi
-
-        execute "bash ${dir}/${package}.sh" "$PACKAGE_READABLE_NAME"
     else
         print_success "$PACKAGE_READABLE_NAME"
     fi
