@@ -111,7 +111,7 @@ function install_executable() {
     declare -r EXECUTABLE_READABLE_NAME="$1"
     declare -r INSTALL_CMD="$3"
 
-    if ! cmd_exists "$EXECUTABLE_NAME"
+    if ! cmd_exists "$EXECUTABLE_NAME"; then
         # local dir="${BASH_SOURCE%/*}"
         # if [[ ! -d "$dir" ]]; then dir="$PWD"; fi
 
@@ -430,19 +430,19 @@ declare -A def_packages
 declare -A sel_packages
 declare package_count=0
 
-declare -r PACKAGE_IFS=:
-
-declare pkg_name=''
-declare pkg_desc=''
-declare pkg_type=''
-declare pkg_cmd=''
+declare -r PACKAGE_IFS=,
+declare -r PKG_DEFS="pkg_name pkg_desc pkg_exe pkg_type pkg_cmd"
 
 function parse_package_def() {
     if [[ -z $1 ]]; then
         print_fatal_error_msg_and_exit $FUNCNAME $@
     fi
 
-    read pkg_name pkg_desc pkg_type <<<"$1"
+    eval "read $PKG_DEFS <<<\"$1\""
+    eval "vars=($PKG_DEFS)"
+    for var in ${vars[@]}; do
+        eval "$var=\"$(trim_space ${!var})\""
+    done
 }
 
 function read_package_conf() {
