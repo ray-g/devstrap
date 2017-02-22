@@ -430,8 +430,8 @@ declare -A def_packages
 declare -A sel_packages
 declare package_count=0
 
-declare -r PACKAGE_IFS=,
-declare -r PKG_DEFS="pkg_name pkg_desc pkg_exe pkg_type pkg_cmd"
+declare -r PACKAGE_IFS=$';'
+declare -r PKG_DEFS="pkg_name pkg_desc pkg_sel pkg_type pkg_exe pkg_cmd"
 
 function parse_package_def() {
     if [[ -z $1 ]]; then
@@ -450,7 +450,7 @@ function read_package_conf() {
     local OLD_IFS=$IFS
 
     while IFS=$'\n' read -r line; do
-        if [[ $line != [#]* ]]; then
+        if [[ ${#line} -gt 1 && $line != [#]* ]]; then
             IFS=$PACKAGE_IFS
             parse_package_def "${line}"
             if [[ -z ${sel_packages["$pkg_name"]} && -z ${def_packages["$pkg_name"]} ]]; then
@@ -517,7 +517,7 @@ function do_box_select_package() {
     for pkg in "${def_packages[@]}"
     do
         parse_package_def "${pkg}"
-        options+=("${pkg_name}" "${pkg_desc}" "ON")
+        options+=("${pkg_name}" "${pkg_desc}" "${pkg_sel}")
     done
     IFS=$OLD_IFS
 
