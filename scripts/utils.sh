@@ -429,6 +429,7 @@ function show_spinner() {
 
 declare -A def_packages
 declare -A sel_packages
+declare -a order_packages
 declare package_count=0
 
 declare -r PACKAGE_IFS=$';'
@@ -460,6 +461,7 @@ function read_package_conf() {
             if [[ -z ${sel_packages["$pkg_name"]} && -z ${def_packages["$pkg_name"]} ]]; then
                 def_packages["$pkg_name"]="${line}"
                 sel_packages["$pkg_name"]=0
+                order_packages+=( $pkg_name )
                 ((++package_count))
             else
                 IFS=$OLD_IFS
@@ -475,7 +477,9 @@ function read_package_conf() {
 function print_packages() {
     local OLD_IFS=$IFS
     IFS=$PACKAGE_IFS
-    for pkg in "${def_packages[@]}"; do
+    for name in "${order_packages[@]}"; do
+        local pkg
+        pkg=${def_packages[$name]}
         parse_package_def "${pkg}"
         printf "pkg name: %s, pkg desc: %s, pkg type: %s\n" "${pkg_name}" "${pkg_desc}" "${pkg_type}"
     done
@@ -518,8 +522,10 @@ function show_select_package_box() {
     declare -a options
     local OLD_IFS=$IFS
     IFS=$PACKAGE_IFS
-    for pkg in "${def_packages[@]}"
+    for name in "${order_packages[@]}"
     do
+        local pkg
+        pkg=${def_packages[$name]}
         parse_package_def "${pkg}"
         options+=("${pkg_name}" "${pkg_desc}" "${pkg_sel}")
     done
