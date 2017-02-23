@@ -525,7 +525,7 @@ function do_box_select_package() {
     IFS=$OLD_IFS
 
     result=$( whiptail --title "Select packages you want to install"\
-                       --ok-button "Done"\
+                       --fb --ok-button "Done"\
                        --checklist "Packages" $DIALOG_HEIGHT $DIALOG_WIDTH $ITEMS_COUNT\
                        "${options[@]}"\
                        3>&2 2>&1 1>&3-)
