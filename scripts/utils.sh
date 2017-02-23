@@ -532,6 +532,7 @@ function show_select_package_box() {
                        3>&2 2>&1 1>&3-)
 
     [[ "$?" == 1 ]] && return 1
+    [[ ${#result} == 0 ]] && return 1
 
     for item in $result; do
         select_package $(trim_quote $item)
@@ -568,6 +569,7 @@ function install_it() {
     DEBUG_PRINT "Installing selected package:\n"
     DEBUG_PRINT "  pkg_name: ${pkg_name}\n"
     DEBUG_PRINT "  pkg_desc: ${pkg_desc}\n"
+    DEBUG_PRINT "  pkg_type: ${pkg_type}\n"
     DEBUG_PRINT "  pkg_cmd:  ${pkg_cmd}\n"
     DEBUG_PRINT "\n"
 
@@ -578,3 +580,9 @@ function install_it() {
         eval "${installer}"
     fi
 }
+
+function install_via_cmd() {
+    execute "$pkg_cmd" "$pkg_desc"
+}
+
+regist_pkg_installer "cmd" "install_via_cmd"
