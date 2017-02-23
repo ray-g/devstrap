@@ -1,9 +1,5 @@
 #!/usr/bin/env bash
 
-cd "$(dirname "${BASH_SOURCE[0]}")" \
-    && . "../../utils.sh"
-cd -
-
 function add_key() {
     wget -qO - "$1" | sudo apt-key add - &> /dev/null
     #     │└─ write output to file
@@ -27,8 +23,8 @@ function autoremove() {
 }
 
 function install_package() {
-    declare -r PACKAGE="$2"
-    declare -r PACKAGE_READABLE_NAME="$1"
+    declare -r PACKAGE="${pkg_name}"
+    declare -r PACKAGE_READABLE_NAME="${pkg_desc}"
 
     if ! package_is_installed "$PACKAGE"; then
         execute "sudo apt-get install --allow-unauthenticated -qqy $PACKAGE" "$PACKAGE_READABLE_NAME"
