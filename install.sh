@@ -6,7 +6,7 @@ if [[ ! -d "$BASE_DIR" ]]; then BASE_DIR="$PWD"; fi
 
 parse_options $@
 
-read_package_conf "${BASE_DIR}/scripts/install/ubuntu/package.conf"
+read_package_conf "${BASE_DIR}/scripts/install/$(get_os)/package.conf"
 # print_packages
 
 _continue=show_select_package_box
