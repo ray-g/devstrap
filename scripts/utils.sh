@@ -72,23 +72,19 @@ function ask_for_sudo() {
 }
 
 function DEBUG() {
-    if [ "$_DEBUG" == "on" ]; then
-        $@
-    else
-        :
-    fi
+    [[ "$_DEBUG" == "on" ]]
 }
 
 function DEBUG_PRINT() {
-    DEBUG printf "%s" "$@"
+    DEBUG && printf "$1"
 }
 
 function DEBUG_BEGIN() {
-    DEBUG set -x
+    DEBUG && set -x
 }
 
 function DEBUG_END() {
-    DEBUG set +x
+    DEBUG && set +x
 }
 
 function trim_quote() {
@@ -132,6 +128,11 @@ function kill_all_subprocesses() {
         kill "$i"
         wait "$i" &> /dev/null
     done
+}
+
+function set_trap() {
+    trap -p "$1" | grep "$2" &> /dev/null \
+        || trap '$2' "$1"
 }
 
 function execute() {
@@ -509,7 +510,7 @@ function has_selected_package() {
     fi
 }
 
-function do_box_select_package() {
+function show_select_package_box() {
     DIALOG_HEIGHT=20
     DIALOG_WIDTH=80
     ITEMS_COUNT=${#def_packages[@]}
@@ -537,4 +538,43 @@ function do_box_select_package() {
     done
 
     return 0
+}
+
+declare -A pkg_installers
+function regist_pkg_installer() {
+    local type=$1
+    local installer=$2
+
+    if [[ -z ${pkg_installers["$type"]} ]]; then
+        pkg_installers["$type"]="$installer"
+    else
+        print_error "Duplicated packages installer! type: '$type', installer: '$installer'"
+        print_fatal_error_msg_and_exit $FUNCNAME $@
+    fi
+}
+
+function install_selected_packages() {
+    for pkg in ${!sel_packages[@]}; do
+        if has_selected_package $pkg; then
+            install_it $pkg
+        fi
+    done
+}
+
+function install_it() {
+    local pkg="$1"
+    parse_package_def "${def_packages[${pkg}]}"
+
+    DEBUG_PRINT "Installing selected package:\n"
+    DEBUG_PRINT "  pkg_name: ${pkg_name}\n"
+    DEBUG_PRINT "  pkg_desc: ${pkg_desc}\n"
+    DEBUG_PRINT "  pkg_cmd:  ${pkg_cmd}\n"
+    DEBUG_PRINT "\n"
+
+    if [[ -z ${pkg_installers[${pkg_type}]} ]]; then
+        print_error "Unknown package type: '${pkg_type}' of '${pkg_name}'"
+    else
+        installer="${pkg_installers[${pkg_type}]}"
+        eval "${installer}"
+    fi
 }
