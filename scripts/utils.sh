@@ -438,11 +438,14 @@ function parse_package_def() {
         print_fatal_error_msg_and_exit $FUNCNAME $@
     fi
 
+    local OLD_IFS=$IFS
+    IFS=$PACKAGE_IFS
     eval "read $PKG_DEFS <<<\"$1\""
     eval "vars=($PKG_DEFS)"
     for var in ${vars[@]}; do
         eval "$var=\"$(trim_space ${!var})\""
     done
+    IFS=$OLD_IFS
 }
 
 function read_package_conf() {
@@ -522,12 +525,16 @@ function do_box_select_package() {
     IFS=$OLD_IFS
 
     result=$( whiptail --title "Select packages you want to install"\
-                       --ok-button "Done" --nocancel\
+                       --ok-button "Done"\
                        --checklist "Packages" $DIALOG_HEIGHT $DIALOG_WIDTH $ITEMS_COUNT\
                        "${options[@]}"\
                        3>&2 2>&1 1>&3-)
 
+    [[ "$?" == 1 ]] && return 1
+
     for item in $result; do
         select_package $(trim_quote $item)
     done
+
+    return 0
 }
