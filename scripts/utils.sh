@@ -561,7 +561,7 @@ function regist_pkg_installer() {
 }
 
 function install_selected_packages() {
-    for pkg in ${!sel_packages[@]}; do
+    for pkg in ${order_packages[@]}; do
         if has_selected_package $pkg; then
             install_it $pkg
         fi
