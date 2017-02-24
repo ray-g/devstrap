@@ -71,6 +71,10 @@ function ask_for_sudo() {
     done &> /dev/null &
 }
 
+function DRYRUN() {
+    [[ "$_DRYRUN" == "on" ]]
+}
+
 function DEBUG() {
     [[ "$_DEBUG" == "on" ]]
 }
@@ -121,6 +125,10 @@ function cmd_exists() {
     command -v "$1" &> /dev/null
 }
 
+function fn_exists() {
+    declare -f "$1" &> /dev/null
+}
+
 function kill_all_subprocesses() {
     local i=""
 
@@ -143,8 +151,9 @@ function execute() {
     local exitCode=0
     local cmdsPID=""
 
-    if [ "$_DRYRUN" == "on" ]; then
-        print_in_blue "DRYRUN: $CMDS\n"
+    if DRYRUN; then
+        print_result $exitCode "${MSG}"
+        print_in_blue "     ↳ DRYRUN: ${CMDS}\n"
     else
         # If the current process is ended,
         # also end all its subprocesses.
@@ -152,8 +161,8 @@ function execute() {
 
         # Execute commands in background
         eval "$CMDS" \
-        &> /dev/null \
-        2> "$TMP_FILE" &
+            &> /dev/null \
+            2> "$TMP_FILE" &
 
         cmdsPID=$!
 
@@ -592,6 +601,12 @@ function install_it() {
 
 function install_via_cmd() {
     execute "$pkg_cmd" "$pkg_desc"
+
+    if DRYRUN && (fn_exists "${pkg_cmd}"); then
+        print_in_purple "↱     function ${pkg_cmd}     ↰\n"
+        eval "$pkg_cmd"
+        print_in_purple "↳     function ${pkg_cmd}     ↲\n"
+    fi
 }
 
 regist_pkg_installer "cmd" "install_via_cmd"

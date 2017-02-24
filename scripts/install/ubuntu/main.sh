@@ -5,10 +5,12 @@ cd "$(dirname "${BASH_SOURCE[0]}")" \
     && cd - &> /dev/null
 
 function pre_install() {
+    echo 'hello preinstall'
     :
 }
 
 function post_install() {
+    execute "echo 'hello postinstall'"
     :
 }
 
