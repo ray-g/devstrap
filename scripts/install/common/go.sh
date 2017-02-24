@@ -1,14 +1,25 @@
 #!/usr/bin/env bash
 
-# Go utilities
-go get -u -v github.com/nsf/gocode
-go get -u -v github.com/rogpeppe/godef
-go get -u -v github.com/zmb3/gogetdoc
-go get -u -v github.com/golang/lint/golint
-go get -u -v github.com/lukehoban/go-outline
-go get -u -v sourcegraph.com/sqs/goreturns
-go get -u -v golang.org/x/tools/cmd/gorename
-go get -u -v github.com/tpng/gopkgs
-go get -u -v github.com/newhook/go-symbols
-go get -u -v golang.org/x/tools/cmd/guru
-go get -u -v github.com/cweill/gotests/...
+function check_go_env() {
+    [[ ! $(cmd_exists "go") || -z $GOPATH ]]
+}
+
+function install_via_go() {
+    local PACKAGE=${pkg_name}
+    local PACKAGE_DESC=${pkg_desc}
+    local PACKAGE_EXE=${pkg_exe}
+    local PACKAGE_LOCATION=${pkg_cmd}
+
+    if ! check_go_env; then
+        print_error "${PACKAGE_DESC}. Golang didn't installed properly."
+        return 1
+    fi
+
+    if ! cmd_exists $PACKAGE_EXE; then
+        execute "go get -u -v ${PACKAGE}" "${PACKAGE_DESC}"
+    else
+        print_success "${PACKAGE_DESC}"
+    fi
+}
+
+regist_pkg_installer "go" "install_via_go"
