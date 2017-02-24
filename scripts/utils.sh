@@ -515,9 +515,10 @@ function has_selected_package() {
 }
 
 function show_select_package_box() {
-    DIALOG_HEIGHT=20
-    DIALOG_WIDTH=80
-    ITEMS_COUNT=${#def_packages[@]}
+    DIALOG_HEIGHT=40
+    DIALOG_WIDTH=120
+    # ITEMS_COUNT=${#def_packages[@]}
+    ITEMS_COUNT=30
 
     declare -a options
     local OLD_IFS=$IFS
@@ -531,10 +532,12 @@ function show_select_package_box() {
     done
     IFS=$OLD_IFS
 
-    result=$( whiptail --title "Select packages you want to install"\
-                       --fb --ok-button "Done"\
-                       --checklist "Packages" $DIALOG_HEIGHT $DIALOG_WIDTH $ITEMS_COUNT\
-                       "${options[@]}"\
+    result=$( whiptail --title "Select packages you want to install" \
+                       --fb --ok-button "Done" \
+                       --scrolltext \
+                       --clear \
+                       --checklist "Packages" $DIALOG_HEIGHT $DIALOG_WIDTH $ITEMS_COUNT \
+                       "${options[@]}" \
                        3>&2 2>&1 1>&3-)
 
     [[ "$?" == 1 ]] && return 1
