@@ -541,7 +541,7 @@ function show_select_package_box() {
         if [[ ${pkg_sel} == "on_hide" || ${pkg_type} == "seperator" ]]; then
             select_package ${pkg_name}
             continue
-        elif [ ${pkg_sel} == "off_hide" ]
+        elif [ ${pkg_sel} == "off_hide" ]; then
             continue
         fi
         options+=("${pkg_name}" "${pkg_desc}" "${pkg_sel}")
