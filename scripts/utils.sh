@@ -537,6 +537,13 @@ function show_select_package_box() {
         local pkg
         pkg=${def_packages[$name]}
         parse_package_def "${pkg}"
+        # Don't show 'on_hide' or 'seperator'
+        if [[ ${pkg_sel} == "on_hide" || ${pkg_type} == "seperator" ]]; then
+            select_package ${pkg_name}
+            continue
+        elif [ ${pkg_sel} == "off_hide" ]
+            continue
+        fi
         options+=("${pkg_name}" "${pkg_desc}" "${pkg_sel}")
     done
     IFS=$OLD_IFS
