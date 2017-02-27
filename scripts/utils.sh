@@ -615,10 +615,9 @@ function install_via_cmd() {
         print_in_purple "↳     function ${pkg_cmd}     ↲\n"
     fi
 }
+regist_pkg_installer "cmd" "install_via_cmd"
 
 function install_print_seperator() {
     print_in_purple "\n • ${pkg_desc}\n\n"
 }
-
-regist_pkg_installer "cmd" "install_via_cmd"
 regist_pkg_installer "seperator" "install_print_seperator"
