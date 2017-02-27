@@ -196,8 +196,16 @@ function get_os() {
 
     if [ "$kernelName" == "Darwin" ]; then
         os="macos"
-    elif [ "$kernelName" == "Linux" ] && [ -e "/etc/lsb-release" ]; then
-        os="ubuntu"
+    elif [ "$kernelName" == "Linux" ]; then
+        if [ -f "/etc/lsb-release" ]; then
+            os="ubuntu"
+        elif [ -f "/etc/debian_version" ]; then
+            os="debian"
+        elif [ -f "/etc/redhat-release" ]; then
+            os="redhat"
+        elif [ -f "/etc/SuSE-release" ]; then
+            os="suse"
+        fi
     else
         os="$kernelName"
     fi
