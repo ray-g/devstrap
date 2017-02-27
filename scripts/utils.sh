@@ -220,6 +220,10 @@ function get_os_version() {
     printf "%s" "$version"
 }
 
+function get_arch() {
+    printf "%s" "$(uname -m)"
+}
+
 function is_git_repository() {
     git rev-parse &> /dev/null
 }
