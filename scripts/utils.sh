@@ -390,7 +390,7 @@ function print_warning() {
 }
 
 function print_info() {
-    print_in_blue "   [!] $1\n"
+    print_in_blue "   [i] $1\n"
 }
 
 function show_spinner() {
@@ -623,7 +623,7 @@ function install_via_cmd() {
     if ! cmd_exists "${pkg_exe}"; then
         if fn_exists "${pkg_cmd}"; then
         # install via a pre-defined command
-            print_info "Start to install ${pkg_desc}"
+            print_info "Starting ${pkg_desc} ..."
             eval "$pkg_cmd"
             print_result $? "${pkg_desc}"
         else
