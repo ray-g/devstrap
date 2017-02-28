@@ -161,6 +161,7 @@ function execute() {
         print_in_blue "     ↳ DRYRUN: ${CMDS}\n"
     else
         if DEBUG; then
+            echo "$CMDS"
             eval "$CMDS"
             exitCode=$?
             print_result $exitCode "$MSG"
@@ -626,9 +627,10 @@ function install_it() {
     local pkg="$1"
     parse_package_def "${def_packages[${pkg}]}"
 
-    DEBUG_PRINT "Installing selected package:\n"
+    DEBUG_PRINT "\nDealing with selected package:\n"
     DEBUG_PRINT "  pkg_name: ${pkg_name}\n"
     DEBUG_PRINT "  pkg_desc: ${pkg_desc}\n"
+    DEBUG_PRINT "  pkg_exe:  ${pkg_exe}\n"
     DEBUG_PRINT "  pkg_type: ${pkg_type}\n"
     DEBUG_PRINT "  pkg_cmd:  ${pkg_cmd}\n"
     DEBUG_PRINT "\n"
@@ -639,6 +641,8 @@ function install_it() {
         installer="${pkg_installers[${pkg_type}]}"
         eval "${installer}"
     fi
+
+    DEBUG_PRINT "\nDone with selected package: ${pkg_name}\n"
 }
 
 function install_via_cmd() {
