@@ -116,21 +116,6 @@ function trim_space() {
     echo -n $var
 }
 
-function install_executable() {
-    declare -r EXECUTABLE_NAME="$2"
-    declare -r EXECUTABLE_READABLE_NAME="$1"
-    declare -r INSTALL_CMD="$3"
-
-    if ! cmd_exists "$EXECUTABLE_NAME"; then
-        # local dir="${BASH_SOURCE%/*}"
-        # if [[ ! -d "$dir" ]]; then dir="$PWD"; fi
-
-        execute "$INSTALL_CMD" "$EXECUTABLE_READABLE_NAME"
-    else
-        print_success "$EXECUTABLE_READABLE_NAME"
-    fi
-}
-
 function cmd_exists() {
     command -v "$1" &> /dev/null
 }
