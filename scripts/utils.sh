@@ -2,6 +2,7 @@
 
 _DEBUG="off"
 _DRYRUN="off"
+_ALLYES="off"
 
 function print_options_help() {
     echo "Usage: $0 [options]"
@@ -9,6 +10,7 @@ function print_options_help() {
     echo "-h | --help     print this help"
     echo "-d | --debug    enable debug mode"
     echo "-r | --dryrun   enable dryrun mode"
+    echo "     --all-yes  install all packages without selecting"
 }
 
 function parse_options() {
@@ -24,6 +26,10 @@ function parse_options() {
             -r|--dryrun)
                 print_in_purple "dryrun enabled\n"
                 _DRYRUN="on"
+                ;;
+            --all-yes)
+                print_in_purple "all yes mode enabled\n"
+                _ALLYES="on"
                 ;;
             -h|--help)
                 print_options_help
@@ -73,6 +79,10 @@ function ask_for_sudo() {
 
 function DRYRUN() {
     [[ "$_DRYRUN" == "on" ]]
+}
+
+function ALLYES() {
+    [[ "$_ALLYES" == "on" ]]
 }
 
 function DEBUG() {
@@ -553,14 +563,15 @@ function show_select_package_box() {
         if [[ ${pkg_sel} == "hide" || ${pkg_type} == "seperator" ]]; then
             select_package ${pkg_name}
             continue
-        elif [ ${pkg_sel} == "off_hide" ]; then
-            continue
+        elif ALLYES; then
+            select_package ${pkg_name}
         fi
         options+=("${pkg_name}" "${pkg_desc}" "${pkg_sel}")
     done
     IFS=$OLD_IFS
 
-    result=$( whiptail --title "Select packages you want to install" \
+    if ! ALLYES; then
+        result=$( whiptail --title "Select packages you want to install" \
                        --fb --ok-button "Done" \
                        --scrolltext \
                        --clear \
@@ -568,12 +579,13 @@ function show_select_package_box() {
                        "${options[@]}" \
                        3>&2 2>&1 1>&3-)
 
-    [[ "$?" == 1 ]] && return 1
-    [[ ${#result} == 0 ]] && return 1
+        [[ "$?" == 1 ]] && return 1
+        [[ ${#result} == 0 ]] && return 1
 
-    for item in $result; do
-        select_package $(trim_quote $item)
-    done
+        for item in $result; do
+            select_package $(trim_quote $item)
+        done
+    fi
 
     return 0
 }
