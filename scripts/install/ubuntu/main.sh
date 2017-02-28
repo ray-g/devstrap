@@ -41,7 +41,7 @@ function install_golang() {
     local GO_OS="linux"
     local GO_ARCH="amd64"
     execute "wget https://storage.googleapis.com/golang/go${GO_VER}.${GO_OS}-${GO_ARCH}.tar.gz"
-    execute "tar -C /usr/local -xzf go${GO_VER}.${GO_OS}-${GO_ARCH}.tar.gz"
+    execute "sudo tar -C /usr/local -xzf go${GO_VER}.${GO_OS}-${GO_ARCH}.tar.gz"
 }
 
 function install_vscode() {
