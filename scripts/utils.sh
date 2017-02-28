@@ -389,6 +389,10 @@ function print_warning() {
     print_in_yellow "   [!] $1\n"
 }
 
+function print_info() {
+    print_in_blue "   [!] $1\n"
+}
+
 function show_spinner() {
     local -r FRAMES='/-\|'
 
@@ -617,7 +621,14 @@ function install_it() {
 
 function install_via_cmd() {
     if ! cmd_exists "${pkg_exe}"; then
-        execute "$pkg_cmd" "$pkg_desc"
+        if fn_exists "${pkg_cmd}"; then
+        # install via a pre-defined command
+            print_info "Start to install ${pkg_desc}"
+            eval "$pkg_cmd"
+            print_result $? "${pkg_desc}"
+        else
+            execute "$pkg_cmd" "$pkg_desc"
+        fi
     else
         print_success "${pkg_desc}"
     fi
