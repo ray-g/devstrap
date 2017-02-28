@@ -19,5 +19,8 @@ if $_continue; then
     install_selected_packages
 else
     print_in_purple 'Canceled\n'
-    exit 0
 fi
+
+# Not able to get overall installation status.
+# Simply return success here.
+exit 0
