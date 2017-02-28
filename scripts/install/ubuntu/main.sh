@@ -5,8 +5,8 @@ cd "$(dirname "${BASH_SOURCE[0]}")" \
     && cd - &> /dev/null
 
 function pre_install() {
-    echo 'hello preinstall'
-    :
+    update
+    upgrade
 }
 
 function post_install() {
