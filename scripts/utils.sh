@@ -160,6 +160,13 @@ function execute() {
         print_result $exitCode "${MSG}"
         print_in_blue "     ↳ DRYRUN: ${CMDS}\n"
     else
+        if DEBUG; then
+            eval "$CMDS"
+            exitCode=$?
+            print_result $exitCode "$MSG"
+            return $exitCode
+        fi
+
         # If the current process is ended,
         # also end all its subprocesses.
         set_trap "EXIT" "kill_all_subprocesses"
