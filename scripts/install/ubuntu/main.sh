@@ -6,11 +6,9 @@ cd "$(dirname "${BASH_SOURCE[0]}")" \
 
 function pre_install() {
     update
-    upgrade
 }
 
 function post_install() {
-    execute "echo 'hello postinstall'"
     :
 }
 
@@ -53,10 +51,5 @@ function install_vscode() {
     execute "rm $vscode"
 }
 
-
-
-function register() {
-    :
-}
-
+# Register apt installer
 regist_pkg_installer "apt" "install_package"
