@@ -1,7 +1,11 @@
 #!/usr/bin/env bash
 
 function check_go_env() {
-    [[ ! $(cmd_exists "go") || -z $GOPATH ]]
+    if ! cmd_exists "go"; then
+        return 1
+    elif [ -z $GOPATH ]; then
+        return 1
+    fi
 }
 
 function install_via_go() {
