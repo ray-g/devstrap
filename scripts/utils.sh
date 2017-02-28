@@ -3,6 +3,7 @@
 _DEBUG="off"
 _DRYRUN="off"
 _ALLYES="off"
+_SELECTNONE="off"
 
 function print_options_help() {
     echo "Usage: $0 [options]"
@@ -11,6 +12,7 @@ function print_options_help() {
     echo "-d | --debug    enable debug mode"
     echo "-r | --dryrun   enable dryrun mode"
     echo "     --all-yes  install all packages without selecting"
+    echo "-n | --sel-none select none packages in box"
 }
 
 function parse_options() {
@@ -30,6 +32,10 @@ function parse_options() {
             --all-yes)
                 print_in_purple "all yes mode enabled\n"
                 _ALLYES="on"
+                ;;
+            -n|--sel-none)
+                print_in_purple "select none mode enabled\n"
+                _SELECTNONE="on"
                 ;;
             -h|--help)
                 print_options_help
@@ -83,6 +89,10 @@ function DRYRUN() {
 
 function ALLYES() {
     [[ "$_ALLYES" == "on" ]]
+}
+
+function SELECTNONE() {
+    [[ "$_SELECTNONE" == "on" ]]
 }
 
 function DEBUG() {
@@ -555,7 +565,12 @@ function show_select_package_box() {
         elif ALLYES; then
             select_package ${pkg_name}
         fi
-        options+=("${pkg_name}" "${pkg_desc}" "${pkg_sel}")
+
+        if ! SELECTNONE; then
+            options+=("${pkg_name}" "${pkg_desc}" "${pkg_sel}")
+        else
+            options+=("${pkg_name}" "${pkg_desc}" "OFF")
+        fi
     done
     IFS=$OLD_IFS
 
