@@ -23,8 +23,8 @@ function autoremove() {
 }
 
 function install_package() {
-    declare -r PACKAGE="${pkg_name}"
-    declare -r PACKAGE_READABLE_NAME="${pkg_desc}"
+    declare -r PACKAGE="${1:-$pkg_name}"
+    declare -r PACKAGE_READABLE_NAME="${2:-$pkg_desc}"
 
     if ! package_is_installed "$PACKAGE"; then
         execute "sudo apt-get install --allow-unauthenticated -qqy $PACKAGE" "$PACKAGE_READABLE_NAME"

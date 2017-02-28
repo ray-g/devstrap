@@ -619,7 +619,11 @@ function install_it() {
 }
 
 function install_via_cmd() {
-    execute "$pkg_cmd" "$pkg_desc"
+    if ! cmd_exists "${pkg_exe}"; then
+        execute "$pkg_cmd" "$pkg_desc"
+    else
+        print_success "${pkg_desc}"
+    fi
 
     if DRYRUN && (fn_exists "${pkg_cmd}"); then
         print_in_purple "↱     function ${pkg_cmd}     ↰\n"
