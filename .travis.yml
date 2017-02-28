@@ -1,0 +1,14 @@
+language: generic
+
+sudo: required
+
+os:
+  - linux
+
+dist: trusty
+
+branches:
+  only: master
+
+script:
+  - ./install.sh --all-yes
