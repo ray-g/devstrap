@@ -40,11 +40,22 @@ function install_golang() {
     local GO_VER="1.7.5"
     local GO_OS="linux"
     local GO_ARCH="amd64"
-    execute "wget https://storage.googleapis.com/golang/go${GO_VER}.${GO_OS}-${GO_ARCH}.tar.gz" || return $?
-    execute "sudo tar -C /usr/local -xzf go${GO_VER}.${GO_OS}-${GO_ARCH}.tar.gz"
-    local exitCode=$?
-    execute "rm go${GO_VER}.${GO_OS}-${GO_ARCH}.tar.gz"
-    return $exitCode
+
+    if ! cmd_exists "${pkg_exe}"; then
+        execute "wget https://storage.googleapis.com/golang/go${GO_VER}.${GO_OS}-${GO_ARCH}.tar.gz" || return $?
+        execute "sudo tar -C /usr/local -xzf go${GO_VER}.${GO_OS}-${GO_ARCH}.tar.gz"
+        local exitCode=$?
+        execute "rm go${GO_VER}.${GO_OS}-${GO_ARCH}.tar.gz"
+
+        if [ $exitCode -eq 0 ]; then
+            # Successfully installed Golang, setup environment
+            export GOPATH="${HOME}/.gopath/cache"
+            export PATH=${GOPATH}/bin:/usr/local/go/bin:$PATH
+        fi
+        return $exitCode
+    else
+        return 0
+    fi
 }
 
 function install_vscode() {
