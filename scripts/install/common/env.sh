@@ -23,7 +23,7 @@ function install_omt() {
 
 function install_emacsconf() {
     # Install .emacs.d
-    execute "git clone https://github.com/seagle0128/.emacs.d"
+    execute "sync_repo https://github.com/seagle0128/.emacs.d ~/.emacs.d"
 }
 
 function install_fzf() {
@@ -32,6 +32,11 @@ function install_fzf() {
         execute "git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf" || return $?
         execute "~/.fzf/install --all"
     fi
+}
+
+function install_z() {
+    # Install z, the new j
+    execute "sync_repo https://github.com/rupa/z ~/bin/z"
 }
 
 function create_dotfiles() {
