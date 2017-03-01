@@ -559,6 +559,7 @@ function show_select_package_box() {
     ITEMS_COUNT=30
 
     declare -a options
+    declare -r SEP_LINE="=========="
     local OLD_IFS=$IFS
     IFS=$PACKAGE_IFS
     for name in "${order_packages[@]}"
@@ -569,6 +570,9 @@ function show_select_package_box() {
         # Don't show 'hide' or 'seperator'
         if [[ ${pkg_sel} == "hide" || ${pkg_type} == "seperator" ]]; then
             select_package ${pkg_name}
+            if [ ${pkg_type} == "seperator" ]; then
+                options+=("${SEP_LINE}" "${pkg_desc}   ${SEP_LINE}" "OFF")
+            fi
             continue
         elif ALLYES; then
             select_package ${pkg_name}
@@ -595,7 +599,10 @@ function show_select_package_box() {
         [[ ${#result} == 0 ]] && return 1
 
         for item in $result; do
-            select_package $(trim_quote $item)
+            local package_name=$(trim_quote $item)
+            if [ ! ${package_name} == ${SEP_LINE} ]; then
+                select_package $package_name
+            fi
         done
     fi
 
