@@ -42,7 +42,7 @@ function install_golang() {
     local GO_ARCH="amd64"
 
     if ! cmd_exists "${pkg_exe}"; then
-        execute "wget https://storage.googleapis.com/golang/go${GO_VER}.${GO_OS}-${GO_ARCH}.tar.gz" || return $?
+        execute "wget --no-check-certificate https://storage.googleapis.com/golang/go${GO_VER}.${GO_OS}-${GO_ARCH}.tar.gz" || return $?
         execute "sudo tar -C /usr/local -xzf go${GO_VER}.${GO_OS}-${GO_ARCH}.tar.gz"
         local exitCode=$?
         execute "rm go${GO_VER}.${GO_OS}-${GO_ARCH}.tar.gz"
