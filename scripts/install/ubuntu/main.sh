@@ -4,6 +4,9 @@ cd "$(dirname "${BASH_SOURCE[0]}")" \
     && . "helper.sh" \
     && cd - &> /dev/null
 
+# Register apt installer
+regist_pkg_installer "apt" "install_package"
+
 function pre_install() {
     update
 }
@@ -29,6 +32,7 @@ function install_docker() {
             execute "sudo pip install docker-compose" "Docker Compose"
         else
             print_error "Failed to install docker-compose. 'pip' is not installed properly"
+            return 1
         fi
     fi
 }
@@ -70,6 +74,3 @@ function install_vscode() {
     execute "rm $vscode"
     return $exitCode
 }
-
-# Register apt installer
-regist_pkg_installer "apt" "install_package"
