@@ -6,7 +6,7 @@ function install_omz() {
     local exitCode=0
     if [ ! -e ~/.oh-my-zsh ]; then
         # TODO: sudo chsh -s $(grep /zsh$ /etc/shells | tail -1) $(whoami)
-        execute "sh -c \"\$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh | sed 's/env zsh/ /g')\"" "Oh-My-ZSH"
+        execute "sh -c \"\$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh | sed 's/env zsh/ /g;s/chsh -s .*/sudo & \$(whoami)/g')\"" "Oh-My-ZSH"
         exitCode=$?
     fi
     execute "sync_repo https://github.com/zsh-users/zsh-autosuggestions ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions"
