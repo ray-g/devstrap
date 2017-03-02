@@ -245,22 +245,6 @@ function get_arch() {
     printf "%s" "$(uname -m)"
 }
 
-function is_git_repository() {
-    git rev-parse &> /dev/null
-}
-
-function sync_repo() {
-    local repo_uri="$1"
-    local repo_path="$2"
-
-    if [ ! -e "$repo_path" ]; then
-        mkdir -p "$repo_path"
-        git clone "$repo_uri" "$repo_path"
-    else
-        cd "$repo_path" && git pull origin master && cd - >/dev/null
-    fi
-}
-
 function is_supported_version() {
     declare -a v1=(${1//./ })
     declare -a v2=(${2//./ })
@@ -283,6 +267,43 @@ function is_supported_version() {
             return 0
         fi
     done
+}
+
+function is_git_repository() {
+    git rev-parse &> /dev/null
+}
+
+function sync_repo() {
+    local repo_uri="$1"
+    local repo_path="$2"
+
+    if [ ! -e "$repo_path" ]; then
+        mkdir -p "$repo_path"
+        git clone "$repo_uri" "$repo_path"
+    else
+        cd "$repo_path" && git pull origin master && cd - >/dev/null
+    fi
+}
+
+function create_link() {
+    local SOURCE=$1
+    local DEST=$2
+
+    if [ ! -e ${SOURCE} ]; then
+        print_error "${SOURCE} doen't exists."
+        return 2
+    fi
+
+    if [ -f ${DEST} ]; then
+        execute "mv ${DEST} ${DEST}.myenv.bak"
+    fi
+
+    local dest_dir=$(dirname ${DEST})
+    if [ ! -d $dest_dir ]; then
+        execute "mkdir -p ${dest_dir}"
+    fi
+
+    execute "link -s -f ${SOURCE} ${DEST}"
 }
 
 ############################################################
@@ -588,12 +609,12 @@ function show_select_package_box() {
 
     if ! ALLYES; then
         result=$( whiptail --title "Select packages you want to install" \
-                       --fb --ok-button "Done" \
-                       --scrolltext \
-                       --clear \
-                       --checklist "Packages" $DIALOG_HEIGHT $DIALOG_WIDTH $ITEMS_COUNT \
-                       "${options[@]}" \
-                       3>&2 2>&1 1>&3-)
+                           --fb --ok-button "Done" \
+                           --scrolltext \
+                           --clear \
+                           --checklist "Packages" $DIALOG_HEIGHT $DIALOG_WIDTH $ITEMS_COUNT \
+                           "${options[@]}" \
+                           3>&2 2>&1 1>&3-)
 
         [[ "$?" == 1 ]] && return 1
         [[ ${#result} == 0 ]] && return 1

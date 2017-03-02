@@ -39,7 +39,9 @@ function install_z() {
     execute "sync_repo https://github.com/rupa/z ~/bin/z"
 }
 
-function create_dotfiles() {
+function install_dotfiles() {
     # Create dotfiles
-    :
+    for filename in ${BASEDIR}/dotfiles; do
+        create_link $filename ${HOME}/.${filename}
+    done
 }
