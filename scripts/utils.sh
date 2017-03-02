@@ -303,7 +303,7 @@ function create_link() {
         execute "mkdir -p ${dest_dir}"
     fi
 
-    execute "link -s -f ${SOURCE} ${DEST}"
+    execute "ln -s -f ${SOURCE} ${DEST}"
 }
 
 ############################################################
