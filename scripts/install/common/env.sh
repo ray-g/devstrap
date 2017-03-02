@@ -51,3 +51,10 @@ function install_dotfiles() {
         fi
     done
 }
+
+function change_to_zsh() {
+    if hash zsh 2> /dev/null; then
+        print_info "Now enter ZSH"
+        env zsh
+    fi
+}
