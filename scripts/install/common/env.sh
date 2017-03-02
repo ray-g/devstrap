@@ -41,7 +41,9 @@ function install_z() {
 
 function install_dotfiles() {
     # Create dotfiles
-    for filename in ${BASEDIR}/dotfiles; do
-        create_link $filename ${HOME}/.${filename}
+    for filename in ${BASE_DIR}/dotfiles/*; do
+        if [ -f $filename ]; then
+            create_link $filename ${HOME}/.$(basename ${filename})
+        fi
     done
 }
