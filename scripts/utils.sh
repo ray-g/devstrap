@@ -337,10 +337,16 @@ function println() {
     printf "%s\n" $1
 }
 
+declare PRINT_INDENT=0
 function print_in_color() {
+    local spacing=""
+    for i in {0..$PRINT_INDENT}; do
+        spacing="${spacing} "
+    done
+
     printf "%b" \
         "$2" \
-        "$1" \
+        "${spacing}$1" \
         "${NORMAL}"
 }
 
@@ -678,19 +684,17 @@ function install_via_cmd() {
         if fn_exists "${pkg_cmd}"; then
         # install via a pre-defined command
             print_info "Starting ${pkg_desc} ..."
+            DRYRUN && print_in_purple "↱     function ${pkg_cmd}     ↰\n"
+            ((PRINT_INDENT++))
             eval "$pkg_cmd"
+            ((PRINT_INDENT--))
+            DRYRUN && print_in_purple "↳     function ${pkg_cmd}     ↲\n"
             print_result $? "${pkg_desc}"
         else
             execute "$pkg_cmd" "$pkg_desc"
         fi
     else
         print_success "${pkg_desc}"
-    fi
-
-    if DRYRUN && (fn_exists "${pkg_cmd}"); then
-        print_in_purple "↱     function ${pkg_cmd}     ↰\n"
-        eval "$pkg_cmd"
-        print_in_purple "↳     function ${pkg_cmd}     ↲\n"
     fi
 }
 regist_pkg_installer "cmd" "install_via_cmd"
