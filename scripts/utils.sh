@@ -278,14 +278,14 @@ function is_git_repository() {
 }
 
 function sync_repo() {
-    local repo_uri="$1"
-    local repo_path="$2"
+    local repo_uri=$1
+    local repo_path=$2
 
-    if [ ! -e "$repo_path" ]; then
-        mkdir -p "$repo_path"
-        git clone "$repo_uri" "$repo_path"
+    if [ ! -e ${repo_path} ]; then
+        mkdir -p ${repo_path}
+        git clone ${repo_uri} ${repo_path}
     else
-        cd "$repo_path" && git pull origin master && cd - >/dev/null
+        cd ${repo_path} && git pull origin master && cd - >/dev/null
     fi
 }
 
