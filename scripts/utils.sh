@@ -298,7 +298,8 @@ function create_link() {
         return 2
     fi
 
-    if [ -f ${DEST} ]; then
+    if [[ -f ${DEST} && ! -h ${DEST} ]]; then
+        # If dest is a file and not a symbolic link, backup it
         execute "mv ${DEST} ${DEST}.myenv.bak"
     fi
 
