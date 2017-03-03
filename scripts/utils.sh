@@ -350,14 +350,13 @@ function indent() {
         spacing="${spacing} "
     done
 
-    echo -n $spacing
+    echo -n "$spacing"
 }
 
 function print_in_color() {
-    local spacing=$(indent)
     printf "%b" \
         "$2" \
-        "${spacing}$1" \
+        "$(indent)$1" \
         "${NORMAL}"
 }
 
@@ -481,9 +480,8 @@ function show_spinner() {
     fi
 
     # Display spinner while the commands are being executed.
-    local spacing=$(indent)
     while kill -0 "$PID" &>/dev/null; do
-        frameText="${spacing}   [${FRAMES:i++%NUMBER_OR_FRAMES:1}] $MSG"
+        frameText="$(indent)   [${FRAMES:i++%NUMBER_OR_FRAMES:1}] $MSG"
         # Print frame text.
         if ! IS_TRAVIS; then
             printf "%s\n" "$frameText"
