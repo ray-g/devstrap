@@ -45,6 +45,8 @@ function install_z() {
 
 function install_dotfiles() {
     # Create dotfiles
+    local filename=""
+
     for filename in ${BASE_DIR}/dotfiles/*; do
         if [ -f $filename ]; then
             # realpath not found in travis

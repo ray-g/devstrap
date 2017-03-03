@@ -340,6 +340,8 @@ function println() {
 declare _indent=0
 function print_in_color() {
     local spacing=""
+    local i=""
+
     for(( i=0; i<=$_indent; i++ )); do
         spacing="${spacing} "
     done
@@ -387,6 +389,8 @@ function print_error_stream() {
 function print_call_stack() {
     # Print out the stack trace described by $function_stack
     local -r SKIP_STACKS=2
+    local i=""
+
     if [ ${#FUNCNAME[@]} -gt 2 ]
     then
         print_error "↳ Callstacks:"
@@ -509,6 +513,7 @@ function parse_package_def() {
     IFS=$PACKAGE_IFS
     eval "read $PKG_DEFS <<<\"$1\""
     eval "vars=($PKG_DEFS)"
+    local var=""
     for var in ${vars[@]}; do
         eval "$var=\"$(trim_space ${!var})\""
     done
@@ -542,6 +547,8 @@ function read_package_conf() {
 function print_packages() {
     local OLD_IFS=$IFS
     IFS=$PACKAGE_IFS
+
+    local name=""
     for name in "${order_packages[@]}"; do
         local pkg
         pkg=${def_packages[$name]}
@@ -550,6 +557,7 @@ function print_packages() {
     done
     IFS=$OLD_IFS
 
+    local key=""
     for key in "${!sel_packages[@]}"; do
         printf "pkg name: $key, selected: ${sel_packages[${key}]}\n"
     done
@@ -589,6 +597,7 @@ function show_select_package_box() {
     declare -r SEP_LINE="=========="
     local OLD_IFS=$IFS
     IFS=$PACKAGE_IFS
+    local name=""
     for name in "${order_packages[@]}"
     do
         local pkg
@@ -625,6 +634,7 @@ function show_select_package_box() {
         [[ "$?" == 1 ]] && return 1
         [[ ${#result} == 0 ]] && return 1
 
+        local item=""
         for item in $result; do
             local package_name=$(trim_quote $item)
             if [ ! ${package_name} == ${SEP_LINE} ]; then
@@ -674,6 +684,7 @@ function regist_pkg_installer() {
 }
 
 function install_selected_packages() {
+    local pkg=""
     for pkg in ${order_packages[@]}; do
         if has_selected_package $pkg; then
             install_it $pkg
