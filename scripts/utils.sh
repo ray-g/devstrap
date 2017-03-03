@@ -636,6 +636,30 @@ function show_select_package_box() {
     return 0
 }
 
+function check_and_install_whiptail() {
+    if ! cmd_exists "whiptail"; then
+        case $(get_os) in
+            ubuntu)
+                execute "sudo apt-get install -y whiptail"
+                ;;
+            macos)
+                if ! cmd_exists 'brew'; then
+                    execute "ruby -e \"\$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)\""
+                fi
+                execute "brew install newt"
+                ;;
+            *)
+                print_error "Unsupported OS type $(get_os)"
+                print_fatal_error_msg_and_exit $FUNCNAME $@
+                ;;
+        esac
+    fi
+}
+
+############################################################
+# Package Installer Register and common installers
+############################################################
+
 declare -A pkg_installers
 function regist_pkg_installer() {
     local type=$1
