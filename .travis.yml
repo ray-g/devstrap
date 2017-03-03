@@ -14,4 +14,4 @@ script:
   - ./install.sh --all-yes
 
 after_success:
-  - bash ./check_travis_result.sh
+  - bash ./test/check_travis_result.sh
