@@ -662,7 +662,7 @@ function check_and_install_whiptail() {
                 ;;
             macos)
                 if ! cmd_exists 'brew'; then
-                    execute "ruby -e \"\$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)\""
+                    execute "ruby -e \"\$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)\"" "Homebrew"
                 fi
                 execute "brew install newt"
                 ;;
