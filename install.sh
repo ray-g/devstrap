@@ -27,17 +27,6 @@ else
     print_in_purple 'Canceled\n'
 fi
 
-if IS_TRAVIS; then
-    echo 'cat /etc/passwd:'
-    cat /etc/passwd
-
-    echo 'ls -al ~:'
-    ls -al ~
-
-    echo 'ls -al ~/bin'
-    ls -al ~/bin
-fi
-
 # Not able to get overall installation status.
 # Simply return success here.
 exit 0

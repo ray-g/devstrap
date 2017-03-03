@@ -12,3 +12,6 @@ branches:
 
 script:
   - ./install.sh --all-yes
+
+after_success:
+  - bash ./check_travis_result.sh
