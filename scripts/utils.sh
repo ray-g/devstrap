@@ -342,17 +342,21 @@ function println() {
 }
 
 declare _indent=0
-function print_in_color() {
+function indent() {
     local spacing=""
     local i=""
 
-    for(( i=0; i<=$_indent; i++ )); do
+    for(( i=0; i<$_indent; i++ )); do
         spacing="${spacing} "
     done
 
+    echo -n $spacing
+}
+
+function print_in_color() {
     printf "%b" \
         "$2" \
-        "${spacing}$1" \
+        "$(indent)$1" \
         "${NORMAL}"
 }
 
@@ -477,7 +481,7 @@ function show_spinner() {
 
     # Display spinner while the commands are being executed.
     while kill -0 "$PID" &>/dev/null; do
-        frameText="   [${FRAMES:i++%NUMBER_OR_FRAMES:1}] $MSG"
+        frameText="$(indent)   [${FRAMES:i++%NUMBER_OR_FRAMES:1}] $MSG"
         # Print frame text.
         if ! IS_TRAVIS; then
             printf "%s\n" "$frameText"
