@@ -337,10 +337,10 @@ function println() {
     printf "%s\n" $1
 }
 
-declare PRINT_INDENT=0
+declare _indent=0
 function print_in_color() {
     local spacing=""
-    for i in {0..$PRINT_INDENT}; do
+    for(( i=0; i<=$_indent; i++ )); do
         spacing="${spacing} "
     done
 
@@ -685,9 +685,9 @@ function install_via_cmd() {
         # install via a pre-defined command
             print_info "Starting ${pkg_desc} ..."
             DRYRUN && print_in_purple "↱     function ${pkg_cmd}     ↰\n"
-            ((PRINT_INDENT++))
+            ((_indent++))
             eval "$pkg_cmd"
-            ((PRINT_INDENT--))
+            ((_indent--))
             DRYRUN && print_in_purple "↳     function ${pkg_cmd}     ↲\n"
             print_result $? "${pkg_desc}"
         else
