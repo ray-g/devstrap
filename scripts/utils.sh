@@ -529,6 +529,8 @@ function parse_package_def() {
     IFS=$OLD_IFS
 }
 
+declare MAX_NAME_LEN=0
+declare MAX_DESC_LEN=0
 function read_package_conf() {
     local conf_file=$1
     local OLD_IFS=$IFS
@@ -542,6 +544,23 @@ function read_package_conf() {
                 sel_packages["$pkg_name"]=0
                 order_packages+=( $pkg_name )
                 ((++package_count))
+
+                local name_len=0
+                local desc_len=0
+                if [ ${pkg_sel} == "hide" ]; then
+                    :
+                elif [ ${pkg_type} == "seperator" ]; then
+                    # Seperator: ==========
+                    # 3 spaces between description and back seperator
+                    name_len=10
+                    (( desc_len = ${#pkg_desc} + 10 + 3 + 2 )) # 2 ending spaces in seperator
+                else
+                    name_len=${#pkg_name}
+                    (( desc_len = ${#pkg_desc} + 4 )) # 4 ending spaces
+                fi
+                # Update max length
+                if [ $name_len -gt $MAX_NAME_LEN ]; then MAX_NAME_LEN=$name_len; fi
+                if [ $desc_len -gt $MAX_DESC_LEN ]; then MAX_DESC_LEN=$desc_len; fi
             else
                 IFS=$OLD_IFS
                 print_error "Duplicated packages found! name: $pkg_name, desc: $pkg_desc, type: $pkg_type"
@@ -597,8 +616,12 @@ function has_selected_package() {
 }
 
 function show_select_package_box() {
+    local max_len
+    # 16 is a magic number, looks like is the spaces between name and description columns
+    (( max_len = $MAX_DESC_LEN + $MAX_NAME_LEN + 16 ))
+
     DIALOG_HEIGHT=40
-    DIALOG_WIDTH=120
+    DIALOG_WIDTH=$max_len
     # ITEMS_COUNT=${#def_packages[@]}
     ITEMS_COUNT=30
 
@@ -616,7 +639,7 @@ function show_select_package_box() {
         if [[ ${pkg_sel} == "hide" || ${pkg_type} == "seperator" ]]; then
             select_package ${pkg_name}
             if [ ${pkg_type} == "seperator" ]; then
-                options+=("${SEP_LINE}" "${pkg_desc}   ${SEP_LINE}" "OFF")
+                options+=("${SEP_LINE}" "${pkg_desc}   ${SEP_LINE}  " "OFF")
             fi
             continue
         elif ALLYES; then
@@ -624,9 +647,9 @@ function show_select_package_box() {
         fi
 
         if ! SELECTNONE; then
-            options+=("${pkg_name}" "${pkg_desc}" "${pkg_sel}")
+            options+=("${pkg_name}" "${pkg_desc}    " "${pkg_sel}")
         else
-            options+=("${pkg_name}" "${pkg_desc}" "OFF")
+            options+=("${pkg_name}" "${pkg_desc}    " "OFF")
         fi
     done
     IFS=$OLD_IFS
