@@ -15,7 +15,10 @@ read_package_conf "${BASE_DIR}/scripts/install/$(get_os)/package.conf"
 read_package_conf "${BASE_DIR}/scripts/install/common/package.conf"
 # print_packages
 
-check_and_install_whiptail
+if [[ IS_TRAVIS || ! ALLYES ]]; then
+    check_and_install_whiptail
+fi
+
 _continue=show_select_package_box
 
 if $_continue; then

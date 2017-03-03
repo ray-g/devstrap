@@ -83,6 +83,10 @@ function ask_for_sudo() {
     done &> /dev/null &
 }
 
+function IS_TRAVIS() {
+    [[ "$TRAVIS" == "true" ]]
+}
+
 function DRYRUN() {
     [[ "$_DRYRUN" == "on" ]]
 }
@@ -458,7 +462,7 @@ function show_spinner() {
     # Note: In order for the Travis CI site to display
     # things correctly, it needs special treatment, hence,
     # the "is Travis CI?" checks.
-    if [ "$TRAVIS" != "true" ]; then
+    if ! IS_TRAVIS; then
         # Provide more space so that the text hopefully
         # doesn't reach the bottom line of the terminal window.
         #
@@ -475,7 +479,7 @@ function show_spinner() {
     while kill -0 "$PID" &>/dev/null; do
         frameText="   [${FRAMES:i++%NUMBER_OR_FRAMES:1}] $MSG"
         # Print frame text.
-        if [ "$TRAVIS" != "true" ]; then
+        if ! IS_TRAVIS; then
             printf "%s\n" "$frameText"
         else
             printf "%s" "$frameText"
@@ -484,7 +488,7 @@ function show_spinner() {
         sleep 0.2
 
         # Clear frame text.
-        if [ "$TRAVIS" != "true" ]; then
+        if ! IS_TRAVIS; then
             tput rc
         else
             printf "\r"
@@ -663,6 +667,11 @@ function check_and_install_whiptail() {
                 print_fatal_error_msg_and_exit $FUNCNAME $@
                 ;;
         esac
+    fi
+
+    if ! $(whiptail > /dev/null 2>&1); then
+        print_error "Failed to install whiptail."
+        print_fatal_error_msg_and_exit $FUNCNAME $@
     fi
 }
 
