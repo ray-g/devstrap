@@ -687,7 +687,7 @@ function install_via_cmd() {
             DRYRUN && print_in_purple "↱     function ${pkg_cmd}     ↰\n"
             ((_indent++))
             eval "$pkg_cmd"
-            local exitCode = $?
+            local exitCode=$?
             ((_indent--))
             DRYRUN && print_in_purple "↳     function ${pkg_cmd}     ↲\n"
             print_result $exitCode "${pkg_desc}"
