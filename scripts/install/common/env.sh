@@ -59,7 +59,7 @@ function install_dotfiles() {
 function change_to_zsh() {
     if hash zsh 2> /dev/null; then
         print_info "Now enter ZSH"
-        if [[ ! IS_TRAVIS && ! DRYRUN ]]; then
+        if ! IS_TRAVIS && ! DRYRUN; then
             env zsh
         else
             execute "env zsh"
