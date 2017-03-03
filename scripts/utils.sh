@@ -657,9 +657,8 @@ function show_select_package_box() {
     if ! ALLYES; then
         result=$( whiptail --title "Select packages you want to install" \
                            --fb --ok-button "Done" \
-                           --scrolltext \
                            --clear \
-                           --checklist "Packages" $DIALOG_HEIGHT $DIALOG_WIDTH $ITEMS_COUNT \
+                           --checklist "Packages:" $DIALOG_HEIGHT $DIALOG_WIDTH $ITEMS_COUNT \
                            "${options[@]}" \
                            3>&2 2>&1 1>&3-)
 
