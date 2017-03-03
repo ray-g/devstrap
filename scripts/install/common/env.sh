@@ -48,7 +48,7 @@ function install_dotfiles() {
     local filename=""
 
     for filename in ${BASE_DIR}/dotfiles/*; do
-        if [ -f $filename ]; then
+        if [ -e $filename ]; then
             # realpath not found in travis
             # create_link $(realpath $filename) ${HOME}/.$(basename ${filename})
             create_link $(readlink -f $filename) ${HOME}/.$(basename ${filename})
