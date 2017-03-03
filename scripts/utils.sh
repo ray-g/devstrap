@@ -669,7 +669,7 @@ function check_and_install_whiptail() {
         esac
     fi
 
-    if ! $(whiptail > /dev/null 2>&1); then
+    if ! $(whiptail -v > /dev/null 2>&1); then
         print_error "Failed to install whiptail."
         print_fatal_error_msg_and_exit $FUNCNAME $@
     fi
