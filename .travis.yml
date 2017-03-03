@@ -11,7 +11,7 @@ branches:
   only: master
 
 before_script:
-  - bash ./test/test_prerequisites
+  - bash ./test/test_prerequisites.sh
 
 script:
   - ./install.sh --all-yes
