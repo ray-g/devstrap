@@ -7,9 +7,11 @@ if [[ ! -d "$BASE_DIR" ]]; then BASE_DIR="$PWD"; fi
 . "${BASE_DIR}/scripts/install/$(get_os)/main.sh"
 . "${BASE_DIR}/scripts/install/common/main.sh"
 
-ask_for_sudo
-
 parse_options $@
+
+if ! DRYRUN; then
+    ask_for_sudo
+fi
 
 read_package_conf "${BASE_DIR}/scripts/install/$(get_os)/package.conf"
 read_package_conf "${BASE_DIR}/scripts/install/common/package.conf"
