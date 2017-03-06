@@ -55,6 +55,14 @@ function install_dotfiles() {
             create_link $(readlink -f $filename) ${HOME}/.$(basename ${filename})
         fi
     done
+
+    for filename in ~/.{gitconfig,zshrc}_local; do
+	    if [ ! -f "$filename" ]; then
+            execute "touch $filename"
+            execute "echo '# Please add your personal configurations here.' > $filename" "Update file: $filename"
+            print_info "You can add your personal configurations in $filename"
+        fi
+    done;
 }
 
 function change_to_zsh() {
