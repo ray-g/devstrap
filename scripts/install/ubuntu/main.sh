@@ -67,7 +67,7 @@ function install_golang() {
 }
 
 function install_vscode() {
-    local vscode="vscode_stable_myenv.deb"
+    local vscode="vscode_stable_devstrap.deb"
     execute "wget --no-check-certificate https://vscode-update.azurewebsites.net/latest/linux-deb-x64/stable -O $vscode" || return $?
     execute "sudo dpkg -i $vscode"
     local exitCode=$?

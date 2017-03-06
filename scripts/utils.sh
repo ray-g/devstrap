@@ -300,7 +300,7 @@ function create_link() {
 
     if [[ -f ${DEST} && ! -h ${DEST} ]]; then
         # If dest is a file and not a symbolic link, backup it
-        execute "mv ${DEST} ${DEST}.myenv.bak"
+        execute "mv ${DEST} ${DEST}.devstrap.bak"
     fi
 
     local dest_dir=$(dirname ${DEST})
