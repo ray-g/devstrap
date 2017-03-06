@@ -34,6 +34,8 @@ function install_fzf() {
     if [ ! -e ~/.fzf ]; then
         execute "git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf" || return $?
         execute "~/.fzf/install --all"
+    else
+        return 0
     fi
 }
 
