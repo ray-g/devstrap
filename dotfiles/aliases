@@ -49,6 +49,9 @@ alias laf="ls -laF"
 # List only directories
 alias lsd="ls -lF | grep --color=never '^d'"
 
+# List only links
+alias lsl="ls -lah | grep --color=never '^l'"
+
 # Always enable colored `grep` output
 # Note: `GREP_OPTIONS="--color=auto"` is deprecated, hence the alias usage.
 alias grep='grep --color=auto'
