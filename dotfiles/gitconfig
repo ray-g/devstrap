@@ -125,10 +125,10 @@
 	changed = green
 	untracked = cyan
 
-[commit]
+# [commit]
 
 	# https://help.github.com/articles/signing-commits-using-gpg/
-	gpgsign = true
+	# gpgsign = true
 
 [diff]
 
