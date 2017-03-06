@@ -65,5 +65,7 @@ function change_to_zsh() {
         else
             execute "env zsh"
         fi
+    else
+        print_error "ZSH not installed."
     fi
 }
