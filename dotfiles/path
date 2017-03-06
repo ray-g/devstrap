@@ -1,0 +1,83 @@
+# -*- mode: shell-script;  -*-
+# vim: ft=shell: sw=2:
+
+#################################################################
+# PATH Environments
+#################################################################
+
+#
+# Copied from .zshrc. Initialize PATH
+#
+export PATH="${HOME}/bin:/usr/local/bin:/usr/bin:/bin:/usr/bin/X11"
+
+#
+# Go Lang Environment Variables
+#
+export GO_HOME=/usr/local/go
+export PATH=${GO_HOME}/bin:$PATH
+GOPATH_ROOT=${HOME}/.gopath
+GOPATH_CACHE=${GOPATH_ROOT}/cache
+GOPATH_PKGS=${GOPATH_ROOT}/pkgs
+GOPATH_PROJECTS=${HOME}/projects/go_projects
+# export GOPATH=$GOPATH_PKGS:$GOPATH_PROJECTS
+# export PATH=${GOPATH_PKGS}/bin:${GOPATH_PROJECTS}/bin:$PATH
+export GOPATH=$GOPATH_CACHE:$GOPATH_PKGS:$GOPATH_PROJECTS
+export PATH=${GOPATH_CACHE}/bin:${GOPATH_PKGS}/bin:${GOPATH_PROJECTS}/bin:$PATH
+# alias gopkgsync='rsync -aAXv ${GOPATH_CACHE}/ ${GOPATH_PKGS}'
+alias gopkgclean='[ -d "$GOPATH_CACHE" ] && rm -rf ${GOPATH_CACHE}/*'
+
+#
+# Java Environment Variables
+#
+export JDK_HOME=/opt/java/jdk1.7.0_79
+export JRE_HOME=${JDK_HOME}/jre
+export SDK_HOME=${JDK_HOME}
+export JAVA_BINDIR=${JDK_HOME}/bin
+export JAVA_HOME=${JDK_HOME}
+export JAVA_ROOT=${JDK_HOME}
+export CLASSPATH=.:${JAVA_HOME}/lib:${JRE_HOME}/lib
+export PATH=${JAVA_HOME}/bin:$PATH
+
+#
+# Maven Environment Variables
+#
+export MAVEN_HOME=/opt/maven/apache-maven-3.3.3
+export MAVEN_BIN=${MAVEN_HOME}/bin
+export PATH=${MAVEN_BIN}:$PATH
+
+#
+# Ant Environment Variables
+#
+export ANT_HOME=/opt/ant/apache-ant-1.9.6
+export ANT_BIN=${ANT_HOME}/bin
+export ANT=${ANT_BIN}/ant
+export PATH=${ANT_BIN}:$PATH
+
+#
+# Gradle Environment Variables
+#
+export GRADLE_HOME=/opt/gradle/gradle-2.12
+export GRADLE_BIN=${GRADLE_HOME}/bin
+export GRADLE=${GRADLE_BIN}/gradle
+export PATH=${GRADLE_BIN}:$PATH
+
+#
+# P4 Variables
+#
+export P4CONFIG=.p4config
+
+#
+# Add /sbin folder to PATH
+#
+export PATH=/sbin:/usr/local/bin:$PATH
+
+#
+# Makeself Environment Variables
+#
+export MAKESELF_BIN=/opt/makeself/makeself-2.2.0.37
+export PATH=${MAKESELF_BIN}:$PATH
+
+#
+# Add eclipse folder to PATH
+#
+#export PATH=/opt/eclipse:$PATH

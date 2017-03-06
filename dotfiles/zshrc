@@ -53,7 +53,7 @@ ZSH_THEME="robbyrussell"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git emacs history history-substring-search z
+plugins=(git emacs history history-substring-search
          copydir copyfile colorize colored-man-pages
          python ruby sudo themes zsh_reload)
 
@@ -97,6 +97,8 @@ source $ZSH/oh-my-zsh.sh
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+[ -f ~/bin/z/z.sh ] && source ~/bin/z/z.sh
 
 # Load the shell dotfiles, and then some:
 # * ~/.path can be used to extend `$PATH`.
