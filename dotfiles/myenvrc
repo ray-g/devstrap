@@ -194,6 +194,7 @@ function put_spacing
     (( termwidth = ${COLUMNS} - 6 - ${#USER} - ${#HOST} - ${#$(get_pwd)} - ${git} ))
 
     local spacing=""
+    local i=""
     for i in {1..$termwidth}; do
         spacing="${spacing} "
     done
