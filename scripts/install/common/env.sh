@@ -15,7 +15,7 @@ function install_omz() {
         execute "sync_repo https://github.com/zsh-users/zsh-syntax-highlighting.git ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting"
         execute "sync_repo https://github.com/djui/alias-tips.git ~/.oh-my-zsh/custom/plugins/alias-tips"
     fi
-    print_result $exitCode "Oh-My-Zsh"
+    return $exitCode
 }
 
 function install_omt() {
