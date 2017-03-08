@@ -33,7 +33,6 @@ alias cds='echo "`pwd`" > ~/.cdsave'
 alias cdb='cd "`cat ~/.cdsave`"'
 
 # env editor
-alias reload='source ~/.zshrc'
 alias envzshconf='$EDITOR ~/.zshrc'
 alias envpath='$EDITOR ~/.path'
 alias envexports='$EDITOR ~/.exports'
@@ -159,7 +158,7 @@ alias map="xargs -n1"
 
 # One of @janmoesen’s ProTip™s
 for method in GET HEAD POST PUT DELETE TRACE OPTIONS; do
-	alias "$method"="lwp-request -m '$method'"
+    alias "$method"="lwp-request -m '$method'"
 done
 
 # Make Grunt print stack traces by default
