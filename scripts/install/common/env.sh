@@ -56,7 +56,7 @@ function install_dotfiles() {
         fi
     done
 
-    for filename in ~/.{gitconfig,zshrc}_local; do
+    for filename in ~/.{gitconfig,zshrc}.local; do
 	    if [ ! -f "$filename" ]; then
             execute "touch $filename"
             execute "echo '# Please add your personal configurations here.' > $filename" "Update file: $filename"

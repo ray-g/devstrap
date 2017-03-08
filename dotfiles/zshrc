@@ -103,7 +103,7 @@ source $ZSH/oh-my-zsh.sh
 # Load the shell dotfiles, and then some:
 # * ~/.path can be used to extend `$PATH`.
 # * ~/.zshrc_local can be used for other settings you don’t want to commit.
-for file in ~/.{path,zsh_prompt,exports,aliases,functions,zshrc_local}; do
+for file in ~/.{path,zsh_prompt,exports,aliases,functions,zshrc.local}; do
 	[ -r "$file" ] && [ -f "$file" ] && source "$file";
 done;
 unset file;
