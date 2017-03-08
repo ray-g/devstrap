@@ -55,7 +55,7 @@ ZSH_THEME="robbyrussell"
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(git emacs history history-substring-search
          copydir copyfile colorize colored-man-pages
-         python ruby sudo themes zsh_reload)
+         python ruby sudo themes tmux zsh_reload)
 
 # Workaround for fixing the segment fault while reloading
 # https://github.com/zsh-users/zsh-autosuggestions/issues/126
