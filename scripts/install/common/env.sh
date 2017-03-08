@@ -56,13 +56,21 @@ function install_dotfiles() {
         fi
     done
 
+    # Create customize (*.local) files if not exists
     for filename in ~/.{gitconfig,zshrc}.local; do
 	    if [ ! -f "$filename" ]; then
             execute "touch $filename"
             execute "echo '# Please add your personal configurations here.' > $filename" "Update file: $filename"
             print_info "You can add your personal configurations in $filename"
         fi
-    done;
+    done
+
+    filename="~/.vimrc.local"
+    if [ ! -f "$filename" ]; then
+        execute "touch $filename"
+        execute "echo '\" Please add your personal configurations here.' > $filename" "Update file: $filename"
+        print_info "You can add your personal configurations in $filename"
+    fi
 }
 
 function change_to_zsh() {
