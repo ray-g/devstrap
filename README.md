@@ -5,14 +5,19 @@
 Quickly add necessary packages and a set of dotfiles to
 bootstrap your development environments.
 
+Currently it only supports Ubuntu now. But this framework should
+work on MacOS and any other Linux.
+
+PRs are welcome. :smile:
+
 The packages and settings are based on my personal favorite,
 but they are customizable during installation via an
 interactive `whiptail` dialog.
 
-And some dotfiles are also [custmizable](#Customize) after installation.
-Details are here [~/.zshrc.local](#~/.zshrc.local),
-[~/.vimrc.local](#~/.vimrc.local),
-[~/.gitconfig.local](#~/.gitconfig.local).
+And some dotfiles are also [custmizable](#customize) after installation.
+Details are here [~/.zshrc.local](#zshrclocal),
+[~/.vimrc.local](#vimrclocal),
+[~/.gitconfig.local](#gitconfiglocal).
 
 ## Quick Start
 
