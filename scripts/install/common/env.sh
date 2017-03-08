@@ -65,11 +65,24 @@ function install_dotfiles() {
         fi
     done
 
-    filename="~/.vimrc.local"
+    filename=~/.vimrc.local
     if [ ! -f "$filename" ]; then
         execute "touch $filename"
         execute "echo '\" Please add your personal configurations here.' > $filename" "Update file: $filename"
         print_info "You can add your personal configurations in $filename"
+    fi
+
+    filename=~/.zshrc.theme.local
+    if [ ! -f "$filename" ]; then
+        execute "touch $filename"
+        execute "echo '# Set name of the theme to load.\n\
+# Look in ~/.oh-my-zsh/themes/\n\
+# Optionally, if you set this to \"random\", it will load a random theme each\n\
+# time that oh-my-zsh is loaded.\n\
+# ZSH_THEME=\"robbyrussell\"\n\
+ZSH_THEME=\"ys\"\n\
+' > $filename" "Update file: $filename"
+        print_info "You can set your favorite theme in $filename"
     fi
 }
 

@@ -4,16 +4,11 @@
 #################################################################
 # Oh-My-Zsh Theme
 #################################################################
-DISABLE_AUTO_TITLE="true"
-DISABLE_AUTO_UPDATE="true"
 
 function get_pwd
 {
     echo "${PWD/$HOME/~}"
 }
-
-local exit_code="%(?,,%{$fg[red]%}[C:%?]%{$reset_color%})"
-local ret_status="%(?:%{$fg_bold[green]%}➜ :%{$fg_bold[red]%}➜ )"
 
 function put_spacing
 {
@@ -40,21 +35,29 @@ function git_prompt_info() {
     echo "$(parse_git_dirty)$ZSH_THEME_GIT_PROMPT_PREFIX$(git_current_branch)$ZSH_THEME_GIT_PROMPT_SUFFIX"
 }
 
-ZSH_THEME_GIT_PROMPT_PREFIX="[git:"
-ZSH_THEME_GIT_PROMPT_SUFFIX="]$reset_color"
-ZSH_THEME_GIT_PROMPT_DIRTY="$fg[red]+"
-ZSH_THEME_GIT_PROMPT_CLEAN="$fg[green]"
+function set_theme() {
+    DISABLE_AUTO_TITLE="true"
+    DISABLE_AUTO_UPDATE="true"
 
-PROMPT='%{$fg_bold[grey]%}╭%n@%m: %{$fg_bold[grey]%}$(get_pwd)$(put_spacing) $(git_prompt_info)
+    exit_code="%(?,,%{$fg[red]%}[C:%?]%{$reset_color%})"
+    ret_status="%(?:%{$fg_bold[green]%}➜ :%{$fg_bold[red]%}➜ )"
+
+    ZSH_THEME_GIT_PROMPT_PREFIX="[git:"
+    ZSH_THEME_GIT_PROMPT_SUFFIX="]$reset_color"
+    ZSH_THEME_GIT_PROMPT_DIRTY="$fg[red]+"
+    ZSH_THEME_GIT_PROMPT_CLEAN="$fg[green]"
+
+    PROMPT='%{$fg_bold[grey]%}╭%n@%m: %{$fg_bold[grey]%}$(get_pwd)$(put_spacing) $(git_prompt_info)
 %{$fg_bold[grey]%}╰${ret_status}${exit_code}%{$reset_color%} '
 
-if [ -z "${MY_TITLE_NAME+xxx}" ]; then
-    MY_TITLE_NAME="Terminal"
-fi
+    if [ -z "${MY_TITLE_NAME+xxx}" ]; then
+        MY_TITLE_NAME="Terminal"
+    fi
 
-if [ -z "${MY_TITLE_NUM+xxx}" ]; then
-    MY_TITLE_NUM="0"
-fi
+    if [ -z "${MY_TITLE_NUM+xxx}" ]; then
+        MY_TITLE_NUM="0"
+    fi
+}
 
 function update_title()
 {
@@ -77,6 +80,14 @@ function set_title()
     MY_TITLE_NUM=$2
     update_title
 }
-alias tl='set_title'
-alias tt='set_title_name'
-alias tn='set_title_num'
+
+function set_theme_alias() {
+    alias tl='set_title'
+    alias tt='set_title_name'
+    alias tn='set_title_num'
+}
+
+if [ -z "$ZSH_THEME" ]; then
+    set_theme
+    set_theme_alias
+fi

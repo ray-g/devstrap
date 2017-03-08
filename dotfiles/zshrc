@@ -8,8 +8,12 @@ export ZSH=$HOME/.oh-my-zsh
 # Look in ~/.oh-my-zsh/themes/
 # Optionally, if you set this to "random", it'll load a random theme each
 # time that oh-my-zsh is loaded.
-ZSH_THEME="robbyrussell"
+# ZSH_THEME="robbyrussell"
 # ZSH_THEME="ys"
+
+theme_file=~/.zshrc.theme.local
+[ -r "$theme_file" ] && [ -f "$theme_file" ] && source "$theme_file"
+unset theme_file
 
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
@@ -102,8 +106,8 @@ source $ZSH/oh-my-zsh.sh
 
 # Load the shell dotfiles, and then some:
 # * ~/.path can be used to extend `$PATH`.
-# * ~/.zshrc_local can be used for other settings you don’t want to commit.
-for file in ~/.{path,zsh_prompt,exports,aliases,functions,zshrc.local}; do
+# * ~/.zshrc.local can be used for other settings you don’t want to commit.
+for file in ~/.{path,exports,aliases,functions,zsh_prompt,zshrc.local}; do
 	[ -r "$file" ] && [ -f "$file" ] && source "$file";
 done;
-unset file;
+unset file

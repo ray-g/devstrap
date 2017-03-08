@@ -15,7 +15,9 @@ but they are customizable during installation via an
 interactive `whiptail` dialog.
 
 And some dotfiles are also [custmizable](#customize) after installation.
-Details are here [~/.zshrc.local](#zshrclocal),
+Details are here
+[~/.zshrc.local](#zshrclocal),
+[~/.zshrc.theme.local](#zshrcthemelocal),
 [~/.vimrc.local](#vimrclocal),
 [~/.gitconfig.local](#gitconfiglocal).
 
@@ -50,7 +52,7 @@ local requirements by using the following files:
 
 ### ~/.zshrc.local
 
-The `~/.zshrc.local` file it will be automatically sourced after
+The `~/.zshrc.local` file will be automatically sourced after
 all the other `shell` related files, thus, allowing its content
 to add to or overwrite the existing aliases, settings, PATH, etc.
 
@@ -67,15 +69,22 @@ PATH="$PATH:$HOME/projects/bin"
 export PATH
 ```
 
+### ~/.zshrc.theme.local
+
+The `~/.zshrc.theme.local` file will be automatically sourced before
+[oh-my-zsh](https://github.com/robbyrussell/oh-my-zsh) setting up theme.
+Thus, allowing you to set your favorite `oh-my-zsh` theme.
+By default I have set it to a fence one [ys](https://github.com/robbyrussell/oh-my-zsh/wiki/themes#ys)
+
 ### ~/.vimrc.local
 
-The `~/.vimrc.local` file it will be automatically sourced after
+The `~/.vimrc.local` file will be automatically sourced after
 `~/.vimrc`, thus, allowing its content to add or overwrite the
 settings from `~/.vimrc`.
 
 ### ~/.gitconfig.local
 
-The `~/.gitconfig.local` file it will be automatically included
+The `~/.gitconfig.local` file will be automatically included
 after the configurations from `~/.gitconfig`, thus, allowing its
 content to overwrite or add to the existing `git` configurations.
 
