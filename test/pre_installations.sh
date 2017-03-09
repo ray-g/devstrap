@@ -5,7 +5,7 @@ if [[ $TRAVIS_OS_NAME == 'osx' ]]; then
         ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
     fi
     brew update
-    brew install bash bash-completion coreutils
+    brew install bash bash-completion
     sudo sh -c "echo '$(brew --prefix)/bin/bash' >> /etc/shells"
     sudo chsh -s $(brew --prefix)/bin/bash $(whoami)
 else
