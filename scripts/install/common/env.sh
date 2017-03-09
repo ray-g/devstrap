@@ -58,13 +58,14 @@ function install_dotfiles() {
 
     # Create customize (*.local) files if not exists
     for filename in ~/.{gitconfig,zshrc}.local; do
-	    if [ ! -f "$filename" ]; then
+        if [ ! -f "$filename" ]; then
             execute "touch $filename"
             execute "echo '# Please add your personal configurations here.' > $filename" "Update file: $filename"
             print_info "You can add your personal configurations in $filename"
         fi
     done
 
+    # Create customize .vimrc.local file if not exists
     filename=~/.vimrc.local
     if [ ! -f "$filename" ]; then
         execute "touch $filename"
@@ -72,16 +73,18 @@ function install_dotfiles() {
         print_info "You can add your personal configurations in $filename"
     fi
 
+    # Create customize .zshrc.theme.local file if not exists
     filename=~/.zshrc.theme.local
     if [ ! -f "$filename" ]; then
         execute "touch $filename"
-        execute "echo '# Set name of the theme to load.\n\
-# Look in ~/.oh-my-zsh/themes/\n\
-# Optionally, if you set this to \"random\", it will load a random theme each\n\
-# time that oh-my-zsh is loaded.\n\
-# ZSH_THEME=\"robbyrussell\"\n\
-ZSH_THEME=\"ys\"\n\
-' > $filename" "Update file: $filename"
+        local newline=$'\n'
+        local content=""
+        content+="# Set name of the theme to load.${newline}"
+        content+="# Look in ~/.oh-my-zhe/themes/${newline}"
+        content+="# Optionally, if you set this to \"random\", it will load a random theme each${newline}"
+        content+="# time that oh-my-zsh is loaded.${newline}"
+        content+="ZSH_THEME=\"ys\""
+        execute "echo \"${content}\" > $filename" "Update file: $filename"
         print_info "You can set your favorite theme in $filename"
     fi
 }
