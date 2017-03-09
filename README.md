@@ -30,7 +30,21 @@ git clone https://github.com/ray-g/devstrap.git ~/.devstrap
 
 ## Snapshots
 
-__TODO:__ add snapshots later.
+### Package Select Dialog
+
+<img src="https://github.com/ray-g/devstrap/blob/master/docs/snapshots/package_box.PNG" width="600" height="400">
+
+### Installing Result
+
+<img src="https://github.com/ray-g/devstrap/blob/master/docs/snapshots/installing.PNG" width="600" height="400">
+
+### Sample UI with Tmux
+
+<img src="https://github.com/ray-g/devstrap/blob/master/docs/snapshots/layout.PNG" width="600" height="400">
+
+### Git Log
+
+<img src="https://github.com/ray-g/devstrap/blob/master/docs/snapshots/git_log.PNG" width="600" height="400">
 
 ## Command Line Options
 
