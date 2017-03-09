@@ -2,10 +2,16 @@ language: generic
 
 sudo: required
 
-os:
-  - linux
+matrix:
+  include:
+    - os: linux
+      dist: trusty
 
-dist: trusty
+    - os: osx
+      osx_image: xcode8.1
+
+  allow_failures:
+    - os: osx
 
 branches:
   only: master
@@ -14,7 +20,7 @@ before_script:
   - bash ./test/test_prerequisites.sh
 
 script:
-  - ./install.sh --all-yes
+  - ./test/run_test.sh
 
 after_success:
   - bash ./test/check_travis_result.sh
