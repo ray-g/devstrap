@@ -17,11 +17,11 @@ branches:
   only: master
 
 before_script:
-  - bash ./test/pre_installations.sh
-  - bash ./test/test_prerequisites.sh
+  - ./test/pre_installations.sh
+  - ./test/test_prerequisites.sh
 
 script:
-  - bash ./test/run_test.sh
+  - ./test/run_test.sh
 
 after_success:
-  - bash ./test/check_travis_result.sh
+  - ./test/check_travis_result.sh
