@@ -101,3 +101,13 @@ function change_to_zsh() {
         print_error "ZSH not installed."
     fi
 }
+
+function setup_env_only() {
+    install_omz
+    install_omt
+    install_emacsconf
+    install_fzf
+    install_z
+    install_dotfiles
+    change_to_zsh
+}

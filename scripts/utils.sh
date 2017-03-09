@@ -4,15 +4,17 @@ _DEBUG="off"
 _DRYRUN="off"
 _ALLYES="off"
 _SELECTNONE="off"
+_ENV_ONLY="off"
 
 function print_options_help() {
     echo "Usage: $0 [options]"
     echo "Options:"
-    echo "-h | --help     print this help"
-    echo "-d | --debug    enable debug mode"
-    echo "-r | --dryrun   enable dryrun mode"
-    echo "     --all-yes  install all packages without selecting"
-    echo "-n | --sel-none select none packages in box"
+    echo "-h | --help       print this help"
+    echo "-d | --debug      enable debug mode"
+    echo "-r | --dryrun     enable dryrun mode"
+    echo "     --all-yes    install all packages without selecting"
+    echo "-n | --sel-none   select none packages in box"
+    echo "     --env-only   setup environments only"
 }
 
 function parse_options() {
@@ -36,6 +38,10 @@ function parse_options() {
             -n|--sel-none)
                 print_in_purple "select none mode enabled\n"
                 _SELECTNONE="on"
+                ;;
+            --env-only)
+                print_in_purple "env only mode enabled\n"
+                _ENV_ONLY="on"
                 ;;
             -h|--help)
                 print_options_help
@@ -93,6 +99,10 @@ function DRYRUN() {
 
 function ALLYES() {
     [[ "$_ALLYES" == "on" ]]
+}
+
+function ENV_ONLY() {
+    [[ "$_ENV_ONLY" == "on" ]]
 }
 
 function SELECTNONE() {

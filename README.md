@@ -52,11 +52,12 @@ git clone https://github.com/ray-g/devstrap.git ~/.devstrap
 ./install.sh -h
 Usage: ./install.sh [options]
 Options:
--h | --help     print this help
--d | --debug    enable debug mode
--r | --dryrun   enable dryrun mode
-     --all-yes  install all packages without selecting
--n | --sel-none select none packages in box
+-h | --help       print this help
+-d | --debug      enable debug mode
+-r | --dryrun     enable dryrun mode
+     --all-yes    install all packages without selecting
+-n | --sel-none   select none packages in box
+     --env-only   setup environments only
 ```
 
 ## Customize

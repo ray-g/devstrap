@@ -13,6 +13,11 @@ if ! DRYRUN; then
     ask_for_sudo
 fi
 
+if ENV_ONLY; then
+    setup_env_only
+    exit 0
+fi
+
 read_package_conf "${BASE_DIR}/scripts/install/$(get_os)/package.conf"
 read_package_conf "${BASE_DIR}/scripts/install/common/package.conf"
 # print_packages
