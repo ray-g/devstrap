@@ -45,7 +45,7 @@ function install_nodejs() {
 }
 
 function install_golang() {
-    local GO_VER="1.7.5"
+    local GO_VER="1.8"
     local GO_OS="linux"
     local GO_ARCH="amd64"
 
