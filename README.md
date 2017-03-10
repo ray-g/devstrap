@@ -8,6 +8,9 @@ bootstrap your development environments.
 Currently it only supports Ubuntu now. But this framework should
 work on MacOS and any other Linux.
 
+For platforms other than Ubuntu, `install.sh --env-only` is an option
+to skip package selection and installation, only setup the dotfiles.
+
 PRs are welcome. :smile:
 
 The packages and settings are based on my personal favorite,
