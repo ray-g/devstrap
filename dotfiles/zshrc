@@ -100,8 +100,6 @@ source $ZSH/oh-my-zsh.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-
 [ -f ~/bin/z/z.sh ] && source ~/bin/z/z.sh
 
 # Load the shell dotfiles, and then some:
@@ -111,3 +109,5 @@ for file in ~/.{path,exports,aliases,functions,zsh_prompt,zshrc.local}; do
 	[ -r "$file" ] && [ -f "$file" ] && source "$file";
 done;
 unset file
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
