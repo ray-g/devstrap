@@ -308,3 +308,13 @@ function rsyncback() {
 function rsyncsync() {
     rsync -aAXv --delete $1 $2
 }
+
+# Go test and show coverage
+function gotestcov () {
+    go list ./... | grep --color=auto --color=never $1 | xargs go test -v -race -coverprofile=profile.out -covermode=atomic
+    if [ -f profile.out ]; then
+        go tool cover -func=profile.out
+        go tool cover -html=profile.out
+        rm profile.out
+    fi
+}
