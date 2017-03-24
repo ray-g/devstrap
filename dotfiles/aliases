@@ -1,5 +1,11 @@
 #!/usr/bin/env bash
 
+# Devstrap Related
+alias upgrade_devstrap='[ -d ~/.devstrap ] && cd ~/.devstrap && git pull --rebase --stat origin master && cd - >/dev/null && reload'
+alias upgrade_emacs='[ -d ~/.emacs.d ] && cd ~/.emacs.d && git pull --rebase --stat origin master && cd - >/dev/null'
+alias upgrade_omt='[ -d ~/.tmux ] && cd ~/.tmux && git pull --rebase --stat origin master && cd - >/dev/null'
+alias rmelc='rm -f ~/.emacs.d/lisp/*.elc'
+
 # Shortcuts
 alias dl="cd ~/Downloads"
 alias dt="cd ~/Desktop"
