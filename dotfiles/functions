@@ -329,3 +329,8 @@ function gotestcov() {
     fi
     return $exitCode
 }
+
+function gobench() {
+    local foo=${1:-.}
+    go test -bench=${foo} -benchmem ./... 2>/dev/null | grep Benchmark | column -t
+}
