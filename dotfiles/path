@@ -23,8 +23,10 @@ GOPATH_PROJECTS=${HOME}/projects/go_projects
 # export PATH=${GOPATH_PKGS}/bin:${GOPATH_PROJECTS}/bin:$PATH
 export GOPATH=$GOPATH_CACHE:$GOPATH_PKGS:$GOPATH_PROJECTS
 export PATH=${GOPATH_CACHE}/bin:${GOPATH_PKGS}/bin:${GOPATH_PROJECTS}/bin:$PATH
-# alias gopkgsync='rsync -aAXv ${GOPATH_CACHE}/ ${GOPATH_PKGS}'
-alias gopkgclean='[ -d "$GOPATH_CACHE" ] && rm -rf ${GOPATH_CACHE}/*'
+alias gocachesync='rsync -aAXv ${GOPATH_CACHE}/ ${GOPATH_PKGS}'
+alias gocacheclean='[ -d "$GOPATH_CACHE" ] && rm -rf ${GOPATH_CACHE}/*'
+alias gocachelist='ls -la "${GOPATH_CACHE}/bin"'
+alias gopathlist='echo -e ${GOPATH//:/\\n}'
 
 #
 # Java Environment Variables
