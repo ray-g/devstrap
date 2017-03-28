@@ -25,7 +25,8 @@ export GOPATH=$GOPATH_CACHE:$GOPATH_PKGS:$GOPATH_PROJECTS
 export PATH=${GOPATH_CACHE}/bin:${GOPATH_PKGS}/bin:${GOPATH_PROJECTS}/bin:$PATH
 alias gocachesync='rsync -aAXv ${GOPATH_CACHE}/ ${GOPATH_PKGS}'
 alias gocacheclean='[ -d "$GOPATH_CACHE" ] && rm -rf ${GOPATH_CACHE}/*'
-alias gocachelist='ls -la "${GOPATH_CACHE}/bin"'
+alias gocachelist='ls -lah "${GOPATH_CACHE}/bin"'
+alias gopkgslist='ls -lah "${GOPATH_PKGS}/bin"'
 alias gopathlist='echo -e ${GOPATH//:/\\n}'
 
 #
