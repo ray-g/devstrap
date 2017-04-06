@@ -59,7 +59,7 @@ unset theme_file
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(git emacs history history-substring-search
          copydir copyfile colorize colored-man-pages
-         python ruby sudo themes tmux zsh_reload)
+         python ruby sudo themes tmux zsh_reload z)
 
 # Workaround for fixing the segment fault while reloading
 # https://github.com/zsh-users/zsh-autosuggestions/issues/126
@@ -100,7 +100,7 @@ source $ZSH/oh-my-zsh.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
-[ -f ~/bin/z/z.sh ] && source ~/bin/z/z.sh
+# [ -f ~/bin/z/z.sh ] && source ~/bin/z/z.sh
 
 # Load the shell dotfiles, and then some:
 # * ~/.path can be used to extend `$PATH`.
