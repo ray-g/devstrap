@@ -1,10 +1,9 @@
 #!/usr/bin/env bash
 
-# Devstrap Related
+# Devstrap Upgrade Related
 alias upgrade_devstrap='[ -d ~/.devstrap ] && cd ~/.devstrap && git pull --rebase --stat origin master && cd - >/dev/null && reload'
 alias upgrade_emacs='[ -d ~/.emacs.d ] && cd ~/.emacs.d && git pull --rebase --stat origin master && cd - >/dev/null'
 alias upgrade_omt='[ -d ~/.tmux ] && cd ~/.tmux && git pull --rebase --stat origin master && cd - >/dev/null'
-alias rmelc='rm -f ~/.emacs.d/lisp/*.elc'
 
 # Shortcuts
 alias dl="cd ~/Downloads"
@@ -188,3 +187,11 @@ alias reload="exec $SHELL -l"
 
 # Print each PATH entry on a separate line
 alias path='echo -e ${PATH//:/\\n}'
+
+# Alias for Emacs
+alias rmelc='rm -f ~/.emacs.d/lisp/*.elc'
+alias restart_emacs='emacsclient -e "(let ((last-nonmenu-event nil) (kill-emacs-query-functions nil)) (save-buffers-kill-emacs t))" && te'
+
+# bind P and N for EMACS mode
+bindkey -M emacs '^P' history-substring-search-up
+bindkey -M emacs '^N' history-substring-search-down
