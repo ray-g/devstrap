@@ -195,3 +195,8 @@ alias restart_emacs='emacsclient -e "(let ((last-nonmenu-event nil) (kill-emacs-
 # bind P and N for EMACS mode
 bindkey -M emacs '^P' history-substring-search-up
 bindkey -M emacs '^N' history-substring-search-down
+
+# RSync related
+alias rsyncto='rsync -rlhtvzP'
+alias rsyncback='rsync -aAXv'
+alias rsyncsync='rsync -aAXv --delete'

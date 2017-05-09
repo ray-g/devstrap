@@ -294,24 +294,6 @@ function unpkg()
     fi
 }
 
-function mysync() {
-    if [ "$#" -lt 3 ]; then
-        # display usage if parameters less than 3 (type, src, dest)
-        echo "Usage: $0 <back/sync> <SRCs...> <dest>"
-    else
-        case $1 in
-            back) rsync -aAXv ${@:2:$#-1} ;;
-            sync) rsync -aAXv --delete ${@:2:$#-1} ;;
-            *) echo "Usage: $0 <back/sync> <SRCs...> <dest>" ;;
-        esac
-    fi
-}
-
-# RsyncTo
-# function rsyncto() {
-#     rsync -rlhtvzP $1 $2
-# }
-
 # Go test and show coverage
 function gotest() {
     if [ -z $1 ]; then
