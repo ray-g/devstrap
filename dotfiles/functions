@@ -332,3 +332,15 @@ function gobench() {
     # go test -bench=${foo} -benchmem ./... 2>/dev/null | grep Benchmark | column -t
     go test -bench=${foo} -benchmem
 }
+
+# E-Book Convert
+function epub2mobi() {
+    if [ $# -eq 0 ]; then
+        find . -name "*.epub" -exec ebook-convert {} {}.mobi \;
+    else
+        for epub in "$@"; do
+            ebook-convert $epub ${epub}.mobi
+        done
+    fi
+    find . -name "*.epub.mobi" -exec rename 's/\.epub\.mobi$/.mobi/' {} +
+}
