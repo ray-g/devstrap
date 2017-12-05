@@ -74,3 +74,13 @@ function install_vscode() {
     execute "rm $vscode"
     return $exitCode
 }
+
+function install_emacs25() {
+    execute "sudo add-apt-repository ppa:kelleyk/emacs -y && sudo apt-get update"
+    execute "sudo apt-get install emacs25"
+}
+
+function install_emacs25_nox() {
+    execute "sudo add-apt-repository ppa:kelleyk/emacs -y && sudo apt-get update"
+    execute "sudo apt-get install emacs25-nox"
+}
