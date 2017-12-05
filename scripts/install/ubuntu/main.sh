@@ -84,3 +84,20 @@ function install_emacs25_nox() {
     execute "sudo add-apt-repository ppa:kelleyk/emacs -y && sudo apt-get update"
     execute "sudo apt-get install emacs25-nox"
 }
+
+function install_ripgrep() {
+    local RG_VER="0.7.1"
+    local RG_TAR="ripgrep-${RG_VER}-x86_64-unknown-linux-musl.tar.gz"
+
+    if ! cmd_exists "${pkg_exe}"; then
+        execute "wget --no-check-certificate https://github.com/BurntSushi/ripgrep/releases/download/${RG_VER}/${RG_TAR}" || return $?
+        execute "sudo mkdir /usr/local/rg && sudo tar -C /usr/local/rg --strip-components 1 -xzf ${RG_TAR}"
+        local exitCode=$?
+        execute "rm ${RG_TAR}"
+
+        return $exitCode
+    else
+        return 0
+    fi
+}
+
