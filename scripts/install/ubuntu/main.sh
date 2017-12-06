@@ -77,12 +77,12 @@ function install_vscode() {
 
 function install_emacs25() {
     execute "sudo add-apt-repository ppa:kelleyk/emacs -y && sudo apt-get update"
-    execute "sudo apt-get install emacs25"
+    install_package
 }
 
 function install_emacs25_nox() {
     execute "sudo add-apt-repository ppa:kelleyk/emacs -y && sudo apt-get update"
-    execute "sudo apt-get install emacs25-nox"
+    install_package
 }
 
 function install_ripgrep() {
