@@ -44,6 +44,16 @@ function install_nodejs() {
     install_package "nodejs" "NodeJS"
 }
 
+function remove_golang() {
+    local GO_ROOT="/usr/local/go"
+    local GO_EXE="go"
+    if cmd_exists "${GO_EXE}"; then
+        if [[ -d "${GO_ROOT}" && "${GO_ROOT}/bin/go" == "$(which go)" ]]; then
+            execute "sudo rm -rf ${GO_ROOT}"
+        fi
+    fi
+}
+
 function install_golang() {
     local GO_VER="1.9.2"
     local GO_OS="linux"
