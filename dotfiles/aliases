@@ -5,7 +5,6 @@ alias upgrade_devstrap='[ -d ~/.devstrap ] && cd ~/.devstrap && git pull --rebas
 alias upgrade_emacs='[ -d ~/.emacs.d ] && cd ~/.emacs.d && git pull --rebase --stat origin master && cd - >/dev/null'
 alias upgrade_omt='[ -d ~/.tmux ] && cd ~/.tmux && git pull --rebase --stat origin master && cd - >/dev/null'
 alias upgrade_system='sudo apt-get update -y && sudo apt-get upgrade -y && sudo apt-get autoremove -y && sudo apt-get autoclean -y'
-alias upgrade_all='upgrade_devstrap && reload && upgrade_emacs && upgrade_omt && upgrade_system'
 
 # Shortcuts
 alias dl="cd ~/Downloads"
