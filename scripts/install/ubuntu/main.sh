@@ -101,3 +101,10 @@ function install_ripgrep() {
     fi
 }
 
+function install_bazel() {
+    execute "sudo apt-get install openjdk-8-jdk" || return $?
+    execute "echo \"deb [arch=amd64] http://storage.googleapis.com/bazel-apt stable jdk1.8\" | sudo tee /etc/apt/sources.list.d/bazel.list" || return $?
+    execute "curl https://bazel.build/bazel-release.pub.gpg | sudo apt-key add -" || return $?
+    execute "sudo apt-get update" || return $?
+    install_package "bazel" "Bazel"
+}
