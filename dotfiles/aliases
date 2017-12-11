@@ -1,10 +1,12 @@
 #!/usr/bin/env bash
 
 # Devstrap Upgrade Related
-alias upgrade_devstrap='[ -d ~/.devstrap ] && cd ~/.devstrap && git pull --rebase --stat origin master && cd - >/dev/null && reload'
+alias upgrade_devstrap_noreload='[ -d ~/.devstrap ] && cd ~/.devstrap && git pull --rebase --stat origin master && cd - >/dev/null'
+alias upgrade_devstrap='upgrade_devstrap_noreload && reload'
 alias upgrade_emacs='[ -d ~/.emacs.d ] && cd ~/.emacs.d && git pull --rebase --stat origin master && cd - >/dev/null'
 alias upgrade_omt='[ -d ~/.tmux ] && cd ~/.tmux && git pull --rebase --stat origin master && cd - >/dev/null'
 alias upgrade_system='sudo apt-get update -y && sudo apt-get upgrade -y && sudo apt-get autoremove -y && sudo apt-get autoclean -y'
+alias upgrade_all='upgrade_devstrap_noreload && upgrade_emacs && upgrade_omt && upgrade_system'
 
 # Shortcuts
 alias dl="cd ~/Downloads"
