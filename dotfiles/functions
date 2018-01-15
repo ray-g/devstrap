@@ -344,3 +344,28 @@ function epub2mobi() {
     fi
     find . -name "*.epub.mobi" -exec rename 's/\.epub\.mobi$/.mobi/' {} +
 }
+
+
+# List Docker Tags
+function dockertags() {
+    if [ $# -lt 1 ]; then
+        printf '%s\n' \
+            "dockertags  --  list all tags for a Docker image on Docker Hub registry." \
+            "" \
+            "EXAMPLE: " \
+            "  - list all tags for ubuntu:" \
+            "    ${0} ubuntu" \
+            "  - list all php tags containing apache:" \
+            "    ${0} php apache"
+        return 1
+    fi
+
+    image="$1"
+    tags=`wget -q https://registry.hub.docker.com/v1/repositories/${image}/tags -O -  | sed -e 's/[][]//g' -e 's/"//g' -e 's/ //g' | tr '}' '\n'  | awk -F: '{print $3}'`
+
+    if [ -n "$2" ]; then
+        tags=` echo "${tags}" | grep "$2" `
+    fi
+
+    echo "${tags}"
+}
