@@ -33,7 +33,7 @@ alias f='find ./ -iname'
 alias ff='find ./ -iname'
 alias lg='ls -al | grep'
 alias fstab='cat /etc/fstab'
-alias findapp='ps aux | grep'
+alias findapp='ps aux | grep -i'
 alias killapp='sudo kill -9'
 alias qrpm='rpm -qa | grep'
 
