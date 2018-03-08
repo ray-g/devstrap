@@ -101,7 +101,10 @@ function install_ripgrep() {
 
     if ! cmd_exists "${pkg_exe}"; then
         execute "wget --no-check-certificate https://github.com/BurntSushi/ripgrep/releases/download/${RG_VER}/${RG_TAR}" || return $?
-        execute "sudo mkdir /usr/local/rg && sudo tar -C /usr/local/rg --strip-components 1 -xzf ${RG_TAR}"
+        execute "sudo mkdir -p /usr/local/rg && sudo tar -C /usr/local/rg --strip-components 1 -xzf ${RG_TAR}"
+        if [ ! -e "/usr/local/bin/rg" ]; then
+            execute "sudo ln -s /usr/local/rg/rg /usr/local/bin/rg"
+        fi
         local exitCode=$?
         execute "rm ${RG_TAR}"
 

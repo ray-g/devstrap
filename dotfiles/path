@@ -30,11 +30,6 @@ alias gopkgslist='ls -lah "${GOPATH_PKGS}/bin"'
 alias gopathlist='echo -e ${GOPATH//:/\\n}'
 
 #
-# Ripgrep PATH
-#
-export PATH=/usr/local/rg:$PATH
-
-#
 # Add /sbin folder to PATH
 #
 export PATH=$PATH:/usr/local/sbin:/usr/sbin:/sbin
