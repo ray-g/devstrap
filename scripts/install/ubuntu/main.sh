@@ -114,6 +114,25 @@ function install_ripgrep() {
     fi
 }
 
+function install_peco() {
+    local PECO_VER="v0.5.2"
+    local PECO_TAR="peco_linux_amd64.tar.gz"
+
+    if ! cmd_exists "${pkg_exe}"; then
+        execute "wget --no-check-certificate https://github.com/peco/peco/releases/download/${PECO_VER}/${PECO_TAR}" || return $?
+        execute "sudo mkdir -p /usr/local/peco && sudo tar -C /usr/local/peco --strip-components 1 -xzf ${PECO_TAR}"
+        if [ ! -e "/usr/local/bin/peco" ]; then
+            execute "sudo ln -s /usr/local/peco/peco /usr/local/bin/peco"
+        fi
+        local exitCode=$?
+        execute "rm ${PECO_TAR}"
+
+        return $exitCode
+    else
+        return 0
+    fi
+}
+
 function install_bazel() {
     execute "sudo apt-get install openjdk-8-jdk" || return $?
     execute "echo \"deb [arch=amd64] http://storage.googleapis.com/bazel-apt stable jdk1.8\" | sudo tee /etc/apt/sources.list.d/bazel.list" || return $?
