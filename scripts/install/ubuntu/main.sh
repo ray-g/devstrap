@@ -22,9 +22,9 @@ function install_docker() {
     execute "apt-cache policy docker-engine" || return $?
     install_package "docker-engine" "Docker Engine" || return $?
     execute "sudo usermod -aG docker $(whoami)" || return $?
-    execute "sudo mkdir /docker" || return $?
-    execute "sudo ln -s /docker /var/lib/docker" || return $?
-    execute "echo 'DOCKER_OPTS=\"-g /docker\"' | sudo tee /etc/default/docker" || return $?
+    # execute "sudo mkdir /docker" || return $?
+    # execute "sudo ln -s /docker /var/lib/docker" || return $?
+    # execute "echo 'DOCKER_OPTS=\"-g /docker\"' | sudo tee /etc/default/docker" || return $?
 
     # Install Docker Compose
     if ! cmd_exists "docker-compose"; then
