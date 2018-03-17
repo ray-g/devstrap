@@ -20,6 +20,12 @@ antigen bundle colored-man-pages
 antigen bundle extract
 antigen bundle sudo
 antigen bundle z
+antigen bundle tmux
+antigen bundle colorize
+antigen bundle history
+antigen bundle emacs
+antigen bundle copydir
+antigen bundle copyfile
 [[ $OSTYPE == darwin* ]] && antigen bundle osx
 
 # Misc bundles
