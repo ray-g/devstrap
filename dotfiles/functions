@@ -12,7 +12,7 @@ function cdl()
 
 function chpwd()
 {
-    ls;
+    ls --color=auto;
 }
 
 # Create a new directory and enter it
