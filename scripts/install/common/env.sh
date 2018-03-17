@@ -1,5 +1,12 @@
 #!/usr/bin/env bash
 
+function install_antigen() {
+    local antigen_home="${HOME}/.antigen"
+    execute "mkdir -p \"${antigen_home}\"" || return $?
+    execute "curl -fsSL git.io/antigen > ${antigen_home}/antigen.zsh.tmp" || return $?
+    execute "mv \"${antigen_home}/antigen.zsh.tmp\" \"${antigen_home}/antigen.zsh\""
+}
+
 function install_omz() {
     # Install Oh-My-ZSH
     # http://ohmyz.sh/
@@ -57,13 +64,33 @@ function install_dotfiles() {
     done
 
     # Create customize (*.local) files if not exists
-    for filename in ~/.{gitconfig,zshrc}.local; do
+    for filename in ~/.{gitconfig}.local; do
         if [ ! -f "$filename" ]; then
             execute "touch $filename"
             execute "echo '# Please add your personal configurations here.' > $filename" "Update file: $filename"
             print_info "You can add your personal configurations in $filename"
         fi
     done
+
+    # Create customize .zshrc.local file if not exists
+    filename=~/.zshrc.local
+    if [ ! -f "$filename" ]; then
+        execute "touch $filename"
+        local newline=$'\n'
+        local content=""
+        content+="# Please add your personal configurations here.${newline}"
+        content+="${newline}"
+        content+="# Customize Antigen Plugins:${newline}"
+        content+="# antigen bundle golang${newline}"
+        content+="# antigen bundle python${newline}"
+        content+="# antigen bundle ruby${newline}"
+        content+="# antigen bundle docker${newline}"
+        content+="# antigen bundle docker-compose${newline}"
+        content+="# antigen bundle docker-machine${newline}"
+        content+="# antigen bundle npm${newline}"
+        execute "echo \"${content}\" > $filename" "Update file: $filename"
+        print_info "You can set your personal configurations in $filename"
+    fi
 
     # Create customize .vimrc.local file if not exists
     filename=~/.vimrc.local
@@ -83,7 +110,10 @@ function install_dotfiles() {
         content+="# Look in ~/.oh-my-zhe/themes/${newline}"
         content+="# Optionally, if you set this to \"random\", it will load a random theme each${newline}"
         content+="# time that oh-my-zsh is loaded.${newline}"
-        content+="ZSH_THEME=\"ys\""
+        content+="# ZSH_THEME=\"ys\"${newline}"
+        content+="#${newline}"
+        content+="# Use Antigen to load theme${newline}"
+        content+="antigen theme steeef    #ys, dst, steeef, wedisagree, robbyrussell${newline}"
         execute "echo \"${content}\" > $filename" "Update file: $filename"
         print_info "You can set your favorite theme in $filename"
     fi

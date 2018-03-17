@@ -1,106 +1,39 @@
 # -*- mode: shell-script;  -*-
 # vim: ft=shell: sw=2:
 
-# Path to your oh-my-zsh installation.
-export ZSH=$HOME/.oh-my-zsh
+# Path to your antigen installation.
+export ANTIGEN=$HOME/.antigen
 
-# Set name of the theme to load.
-# Look in ~/.oh-my-zsh/themes/
-# Optionally, if you set this to "random", it'll load a random theme each
-# time that oh-my-zsh is loaded.
-# ZSH_THEME="robbyrussell"
-# ZSH_THEME="ys"
+# Load Antigen
+source ${ANTIGEN}/antigen.zsh
 
-theme_file=~/.zshrc.theme.local
-[ -r "$theme_file" ] && [ -f "$theme_file" ] && source "$theme_file"
-unset theme_file
+# Configure Antigen
+declare -a ANTIGEN_CHECK_FILES
+ANTIGEN_CHECK_FILES=("${HOME}/.zshrc" "${HOME}/.zshrc.local")
 
-# Uncomment the following line to use case-sensitive completion.
-# CASE_SENSITIVE="true"
+# Load the oh-my-zsh
+antigen use oh-my-zsh
 
-# Uncomment the following line to use hyphen-insensitive completion. Case
-# sensitive completion must be off. _ and - will be interchangeable.
-# HYPHEN_INSENSITIVE="true"
+# Bundles from the default repo (robbyrussell's oh-my-zsh)
+antigen bundle git
+antigen bundle colored-man-pages
+antigen bundle extract
+antigen bundle sudo
+antigen bundle z
+[[ $OSTYPE == darwin* ]] && antigen bundle osx
 
-# Uncomment the following line to disable bi-weekly auto-update checks.
-# DISABLE_AUTO_UPDATE="true"
+# Misc bundles
+antigen bundle djui/alias-tips
+[[ $OSTYPE != cygwin* ]] && antigen bundle andrewferrier/fzf-z
 
-# Uncomment the following line to change how often to auto-update (in days).
-# export UPDATE_ZSH_DAYS=13
+# antigen bundle zsh-users/zsh-completions
+antigen bundle zsh-users/zsh-autosuggestions
+antigen bundle zdharma/fast-syntax-highlighting
+# antigen bundle zsh-users/zsh-syntax-highlighting
+antigen bundle zsh-users/zsh-history-substring-search
 
-# Uncomment the following line to disable colors in ls.
-# DISABLE_LS_COLORS="true"
-
-# Uncomment the following line to disable auto-setting terminal title.
-# DISABLE_AUTO_TITLE="true"
-
-# Uncomment the following line to enable command auto-correction.
-# ENABLE_CORRECTION="true"
-
-# Uncomment the following line to display red dots whilst waiting for completion.
-# COMPLETION_WAITING_DOTS="true"
-
-# Uncomment the following line if you want to disable marking untracked files
-# under VCS as dirty. This makes repository status check for large repositories
-# much, much faster.
-# DISABLE_UNTRACKED_FILES_DIRTY="true"
-
-# Uncomment the following line if you want to change the command execution time
-# stamp shown in the history command output.
-# The optional three formats: "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
-# HIST_STAMPS="mm/dd/yyyy"
-
-# Would you like to use another custom folder than $ZSH/custom?
-# ZSH_CUSTOM=/path/to/new-custom-folder
-
-# Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
-# Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
-# Example format: plugins=(rails git textmate ruby lighthouse)
-# Add wisely, as too many plugins slow down shell startup.
-plugins=(git emacs history history-substring-search
-         copydir copyfile colorize colored-man-pages
-         python ruby sudo themes tmux zsh_reload z)
-
-# Workaround for fixing the segment fault while reloading
-# https://github.com/zsh-users/zsh-autosuggestions/issues/126
-if [ -z "$_zsh_custom_scripts_loaded" ]; then
-    _zsh_custom_scripts_loaded=1
-    plugins+=(alias-tips zsh-autosuggestions zsh-syntax-highlighting)
-fi
-
-# User configuration
-
+# Basic PATH configuration
 export PATH="${HOME}/bin:/usr/local/bin:/usr/bin:/bin:/usr/bin/X11"
-# export MANPATH="/usr/local/man:$MANPATH"
-
-source $ZSH/oh-my-zsh.sh
-
-# You may need to manually set your language environment
-# export LANG=en_US.UTF-8
-
-# Preferred editor for local and remote sessions
-# if [[ -n $SSH_CONNECTION ]]; then
-#   export EDITOR='vim'
-# else
-#   export EDITOR='mvim'
-# fi
-
-# Compilation flags
-# export ARCHFLAGS="-arch x86_64"
-
-# ssh
-# export SSH_KEY_PATH="~/.ssh/dsa_id"
-
-# Set personal aliases, overriding those provided by oh-my-zsh libs,
-# plugins, and themes. Aliases can be placed here, though oh-my-zsh
-# users are encouraged to define aliases within the ZSH_CUSTOM folder.
-# For a full list of active aliases, run `alias`.
-#
-# Example aliases
-# alias zshconfig="mate ~/.zshrc"
-# alias ohmyzsh="mate ~/.oh-my-zsh"
-
-# [ -f ~/bin/z/z.sh ] && source ~/bin/z/z.sh
 
 # Load the shell dotfiles, and then some:
 # * ~/.path can be used to extend `$PATH`.
@@ -109,5 +42,16 @@ for file in ~/.{path,exports,aliases,functions,zsh_prompt,zshrc.local}; do
 	[ -r "$file" ] && [ -f "$file" ] && source "$file";
 done;
 unset file
+
+# Load Customized theme
+theme_file=~/.zshrc.theme.local
+[ -r "$theme_file" ] && [ -f "$theme_file" ] && source "$theme_file"
+unset theme_file
+
+# Tell Antigen that you've done
+antigen apply
+
+# Completion enhancements
+[ -f ~/.completion.zsh ] && source ~/.completion.zsh
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

@@ -197,8 +197,8 @@ alias rmelc='rm -f ~/.emacs.d/lisp/*.elc'
 alias restart_emacs='emacsclient -e "(let ((last-nonmenu-event nil) (kill-emacs-query-functions nil)) (save-buffers-kill-emacs t))" && te'
 
 # bind P and N for EMACS mode
-bindkey -M emacs '^P' history-substring-search-up
-bindkey -M emacs '^N' history-substring-search-down
+# bindkey -M emacs '^P' history-substring-search-up
+# bindkey -M emacs '^N' history-substring-search-down
 
 # RSync related
 alias rsyncto='rsync -rlhtvzP'
