@@ -113,7 +113,7 @@ function install_dotfiles() {
         content+="# ZSH_THEME=\"ys\"${newline}"
         content+="#${newline}"
         content+="# Use Antigen to load theme${newline}"
-        content+="antigen theme steeef    #ys, dst, steeef, wedisagree, robbyrussell${newline}"
+        content+="antigen theme ys    #ys, dst, steeef, wedisagree, robbyrussell${newline}"
         execute "echo \"${content}\" > $filename" "Update file: $filename"
         print_info "You can set your favorite theme in $filename"
     fi
