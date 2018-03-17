@@ -4,12 +4,12 @@
 # Path to your antigen installation.
 export ANTIGEN=$HOME/.antigen
 
-# Load Antigen
-source ${ANTIGEN}/antigen.zsh
-
 # Configure Antigen
 declare -a ANTIGEN_CHECK_FILES
-ANTIGEN_CHECK_FILES=("${HOME}/.zshrc" "${HOME}/.zshrc.local")
+ANTIGEN_CHECK_FILES=("${HOME}/.zshrc" "${HOME}/.zshrc.local" "${HOME}/.zshrc.theme.local")
+
+# Load Antigen
+source ${ANTIGEN}/antigen.zsh
 
 # Load the oh-my-zsh
 antigen use oh-my-zsh
@@ -38,15 +38,13 @@ export PATH="${HOME}/bin:/usr/local/bin:/usr/bin:/bin:/usr/bin/X11"
 # Load the shell dotfiles, and then some:
 # * ~/.path can be used to extend `$PATH`.
 # * ~/.zshrc.local can be used for other settings you don’t want to commit.
-for file in ~/.{path,exports,aliases,functions,zsh_prompt,zshrc.local}; do
+for file in ~/.{path,exports,aliases,functions,zshrc.local,zshrc.theme.local}; do
 	[ -r "$file" ] && [ -f "$file" ] && source "$file";
 done;
 unset file
 
-# Load Customized theme
-theme_file=~/.zshrc.theme.local
-[ -r "$theme_file" ] && [ -f "$theme_file" ] && source "$theme_file"
-unset theme_file
+# Load the theme
+antigen theme ray-g/zsh-theme
 
 # Tell Antigen that you've done
 antigen apply
