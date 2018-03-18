@@ -63,6 +63,19 @@ function install_dotfiles() {
         fi
     done
 
+    # clean old files
+    for finename in ~/.{zsh_prompt,zshrc.local,zshrc.theme.local}; do
+        if [[ -L "$filename" && ! -e "$filename" ]]; then
+            # broken link
+            execute "rm $filename"
+        elif [ -f "filename" ]; then
+            execute "mv ${filename} ${filename}.devstrap.bak"
+            print_info "Backup existing file: ${filename} to ${filename}.devstrap.bak"
+            print_info "You can get your config back by copy the content"
+            print_info "or remove backups if you don't need them."
+        fi
+    done
+
     # Create customize (*.local) files if not exists
     for filename in ~/.{gitconfig}.local; do
         if [ ! -f "$filename" ]; then
