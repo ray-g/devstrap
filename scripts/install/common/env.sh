@@ -68,7 +68,7 @@ function install_dotfiles() {
         if [[ -L "$filename" && ! -e "$filename" ]]; then
             # broken link
             execute "rm $filename"
-        elif [ -f "filename" ]; then
+        elif [ -f "$filename" ]; then
             execute "mv ${filename} ${filename}.devstrap.bak"
             print_info "Backup existing file: ${filename} to ${filename}.devstrap.bak"
             print_info "You can get your config back by copy the content"
@@ -77,13 +77,12 @@ function install_dotfiles() {
     done
 
     # Create customize (*.local) files if not exists
-    for filename in ~/.{gitconfig}.local; do
-        if [ ! -f "$filename" ]; then
-            execute "touch $filename"
-            execute "echo '# Please add your personal configurations here.' > $filename" "Update file: $filename"
-            print_info "You can add your personal configurations in $filename"
-        fi
-    done
+    filename=~/.gitconfig.local
+    if [ ! -f "$filename" ]; then
+        execute "touch $filename"
+        execute "echo '# Please add your personal configurations here.' > $filename" "Update file: $filename"
+        print_info "You can add your personal configurations in $filename"
+    fi
 
     # Create customize .zshrc.local file if not exists
     filename=~/.zshrc.local
