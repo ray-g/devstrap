@@ -64,7 +64,7 @@ function install_dotfiles() {
     done
 
     # clean old files
-    for finename in ~/.{zsh_prompt,zshrc.local,zshrc.theme.local}; do
+    for filename in ~/.{zsh_prompt,zshrc.local,zshrc.theme.local}; do
         if [[ -L "$filename" && ! -e "$filename" ]]; then
             # broken link
             execute "rm $filename"
