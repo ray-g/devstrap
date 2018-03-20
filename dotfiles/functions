@@ -12,7 +12,13 @@ function cdl()
 
 function chpwd()
 {
-    ls --color=auto;
+    if [[ $OSTYPE == linux* ]]; then
+        ls --color=auto;
+    elif [[ $OSTYPE == darwin* ]]; then
+        ls -G
+    else
+        ls
+    fi
 }
 
 # Create a new directory and enter it
