@@ -110,7 +110,9 @@ function install_dotfiles() {
         local newline=$'\n'
         local content=""
         content+="# Please add your personal configurations which should apply after antigen here.${newline}"
-        content+="unalias '...'"
+        content+="if type '...' > /dev/null 2>&1; then${newline}"
+        content+="  unalias '...'${newline}"
+        content+="fi${newline}"
         execute "echo \"${content}\" > $filename" "Update file: $filename"
         print_info "You can add your personal final contifutations in $filename"
     fi
