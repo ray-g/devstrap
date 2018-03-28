@@ -104,6 +104,17 @@ function install_dotfiles() {
         print_info "You can set your personal configurations in $filename"
     fi
 
+    filename=~/.zshrc.final.local
+    if [ ! -f "$filename" ]; then
+        execute "touch $filename"
+        local newline=$'\n'
+        local content=""
+        content+="# Please add your personal configurations which should apply after antigen here.${newline}"
+        content+="unalias '...'"
+        execute "echo \"${content}\" > $filename" "Update file: $filename"
+        print_info "You can add your personal final contifutations in $filename"
+    fi
+
     # Create customize .vimrc.local file if not exists
     filename=~/.vimrc.local
     if [ ! -f "$filename" ]; then
@@ -128,6 +139,12 @@ function install_dotfiles() {
         content+="antigen theme ys    #ys, dst, steeef, wedisagree, robbyrussell${newline}"
         execute "echo \"${content}\" > $filename" "Update file: $filename"
         print_info "You can set your favorite theme in $filename"
+    fi
+
+    # For Centaur Emacs
+    filename=~/.path
+    if [ -f "$filename" ]; then
+        execute "cp $filename ~/.zshenv" "Update ~/.zshenv"
     fi
 }
 

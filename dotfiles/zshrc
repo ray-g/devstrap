@@ -55,6 +55,11 @@ unset file
 # Tell Antigen that you've done
 antigen apply
 
+# Hook after antigen_apply
+file=~/.zshrc.final.local
+[ -r "$file" ] && [ -f "$file" ] && source "$file"
+unset file
+
 # Completion enhancements
 [ -f ~/.completion.zsh ] && source ~/.completion.zsh
 
