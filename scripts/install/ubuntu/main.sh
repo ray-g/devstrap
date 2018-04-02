@@ -37,11 +37,21 @@ function install_docker() {
     fi
 }
 
-function install_nodejs() {
+function install_nodejs6() {
     # Install Node.JS
     # https://nodejs.org/en/download/package-manager/#debian-and-ubuntu-based-linux-distributions
     execute "curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash -" || return $?
-    install_package "nodejs" "NodeJS"
+    install_package "nodejs" "NodeJS_6"
+}
+
+function install_nodejs8() {
+    execute "curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -" || return $?
+    install_package "nodejs" "NodeJS_8"
+}
+
+function install_nodejs9() {
+    execute "curl -sL https://deb.nodesource.com/setup_9.x | sudo -E bash -" || return $?
+    install_package "nodejs" "NodeJS_9"
 }
 
 function remove_golang() {
