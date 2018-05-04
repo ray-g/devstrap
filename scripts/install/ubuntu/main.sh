@@ -65,7 +65,7 @@ function remove_golang() {
 }
 
 function install_golang() {
-    local GO_VER="1.10.1"
+    local GO_VER="1.10.2"
     local GO_OS="linux"
     local GO_ARCH="amd64"
 
