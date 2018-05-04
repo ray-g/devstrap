@@ -49,9 +49,9 @@ function install_nodejs8() {
     install_package "nodejs" "NodeJS_8"
 }
 
-function install_nodejs9() {
-    execute "curl -sL https://deb.nodesource.com/setup_9.x | sudo -E bash -" || return $?
-    install_package "nodejs" "NodeJS_9"
+function install_nodejs10() {
+    execute "curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -" || return $?
+    install_package "nodejs" "NodeJS_10"
 }
 
 function remove_golang() {
