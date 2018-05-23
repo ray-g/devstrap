@@ -86,6 +86,7 @@ function install_dotfiles() {
         local newline=$'\n'
         local content=""
         content+="# Include devstrap's gitconfig first.${newline}"
+        content+="# Keep this in the top of this file to allow any setting overwritten it.${newline}"
         content+="[include]${newline}"
         content+="    path = ~/.gitconfig.devstrap"
         content+="${newline}"
