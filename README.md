@@ -22,7 +22,7 @@ Details are here
 [~/.zshrc.local](#zshrclocal),
 [~/.zshrc.theme.local](#zshrcthemelocal),
 [~/.vimrc.local](#vimrclocal),
-[~/.gitconfig.local](#gitconfiglocal).
+[~/.gitconfig](#gitconfig).
 
 ## Quick Start
 
@@ -100,13 +100,14 @@ The `~/.vimrc.local` file will be automatically sourced after
 `~/.vimrc`, thus, allowing its content to add or overwrite the
 settings from `~/.vimrc`.
 
-### ~/.gitconfig.local
+### ~/.gitconfig
 
-The `~/.gitconfig.local` file will be automatically included
-after the configurations from `~/.gitconfig`, thus, allowing its
-content to overwrite or add to the existing `git` configurations.
+The `~/.gitconfig` file will automatically included `~/.gitconfig.devstrap` first,
+which contains a set of git configs out of the box.
+Then any configurations can be written here `~/.gitconfig`, thus, allowing its
+content to overwrite or add to the existing `git` configurations without touch the `devstrap` git repo.
 
-__Note:__ Use `~/.gitconfig.local` to store sensitive information
+__Note:__ Use `~/.gitconfig` to store sensitive information
 such as the `git` user credentials, e.g.:
 
 ```shell
