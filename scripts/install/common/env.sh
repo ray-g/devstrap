@@ -144,9 +144,10 @@ function install_dotfiles() {
     fi
 
     # For Centaur Emacs
-    filename=~/.path
-    if [ -f "$filename" ]; then
-        execute "cp $filename ~/.zshenv" "Update ~/.zshenv"
+    pathfile=~/.path
+    zshenvfile=~/.zshenv
+    if [ -f "$pathfile" ]; then
+        execute "cp $pathfile $zshenvfile" "Update $zshenvfile"
     fi
 }
 
