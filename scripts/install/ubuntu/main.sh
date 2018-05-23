@@ -16,11 +16,11 @@ function post_install() {
 }
 
 function install_docker() {
-    execute "sudo apt-key adv --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys 58118E89F3A912897C070ADBF76221572C52609D" || return $?
-    execute "echo \"deb https://apt.dockerproject.org/repo ubuntu-xenial main\" | sudo tee /etc/apt/sources.list.d/docker.list" || return $?
+    execute "curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -" || return $?
+    execute "sudo add-apt-repository \"deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable\"" || return $?
     update || return $?
-    execute "apt-cache policy docker-engine" || return $?
-    install_package "docker-engine" "Docker Engine" || return $?
+    execute "apt-cache policy docker-ce" || return $?
+    install_package "docker-ce" "Docker CE" || return $?
     execute "sudo usermod -aG docker $(whoami)" || return $?
     # execute "sudo mkdir /docker" || return $?
     # execute "sudo ln -s /docker /var/lib/docker" || return $?
