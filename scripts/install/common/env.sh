@@ -64,7 +64,7 @@ function install_dotfiles() {
     done
 
     # clean old files
-    for filename in ~/.{zsh_prompt,zshrc.local,zshrc.theme.local}; do
+    for filename in ~/.{zsh_prompt,zshrc.local,zshrc.theme.local,gitconfig,vimrc.local}; do
         if [[ -L "$filename" && ! -e "$filename" ]]; then
             # broken link
             execute "rm $filename"
@@ -77,10 +77,23 @@ function install_dotfiles() {
     done
 
     # Create customize (*.local) files if not exists
-    filename=~/.gitconfig.local
+
+    # gitconfig should use original filename without ".local" suffix
+    # so customized "git config --global" can be saved without touch devstrap repo
+    filename=~/.gitconfig
     if [ ! -f "$filename" ]; then
         execute "touch $filename"
-        execute "echo '# Please add your personal configurations here.' > $filename" "Update file: $filename"
+        local newline=$'\n'
+        local content=""
+        content+="# Include devstrap's gitconfig first.${newline}"
+        content+="# Keep this in the top of this file to allow any setting overwritten it.${newline}"
+        content+="[include]${newline}"
+        content+="    # Load local configs.${newline}"
+        content+="    # https://git-scm.com/docs/git-config#_includes${newline}"
+        content+="${newline}"
+        content+="    path = ~/.gitconfig.devstrap"
+        content+="${newline}"
+        execute "echo \"${content}\" > $filename" "Update file: $filename"
         print_info "You can add your personal configurations in $filename"
     fi
 
@@ -144,9 +157,10 @@ function install_dotfiles() {
     fi
 
     # For Centaur Emacs
-    filename=~/.path
-    if [ -f "$filename" ]; then
-        execute "cp $filename ~/.zshenv" "Update ~/.zshenv"
+    pathfile=~/.path
+    zshenvfile=~/.zshenv
+    if [ -f "$pathfile" ]; then
+        execute "cp $pathfile $zshenvfile" "Update $zshenvfile"
     fi
 }
 
