@@ -124,6 +124,22 @@ function install_ripgrep() {
     fi
 }
 
+function install_fd() {
+    local FD_VER="7.0.0"
+    local FD_DEB="fd_${FD_VER}_amd64.deb"
+
+    if ! cmd_exists "${pkg_exe}"; then
+        execute "wget --no-check-certificate https://github.com/sharkdp/fd/releases/download/v${FD_VER}/${FD_DEB}" || return $?
+        execute "sudo dpkg -i ${FD_DEB}"
+        local exitCode=$?
+        execute "rm ${FD_DEB}"
+
+        return $exitCode
+    else
+        return 0
+    fi
+}
+
 function install_peco() {
     local PECO_VER="v0.5.2"
     local PECO_TAR="peco_linux_amd64.tar.gz"
