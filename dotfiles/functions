@@ -375,3 +375,33 @@ function dockertags() {
 
     echo "${tags}"
 }
+
+# VirtualEnv shortcuts
+export VIRTUAL_ENV_PATH="${HOME}/.virtualenvs/"
+function venv3() {
+    if [ $# -eq 0 ]; then
+        if [ ! -z ${VIRTUAL_ENV} ]; then
+            echo $(basename ${VIRTUAL_ENV})
+        fi
+        return 0
+    fi
+
+    if [ $1 = "ls" ]; then
+        ls $VIRTUAL_ENV_PATH
+        return 0
+    fi
+
+    if [ $1 = "new" ]; then
+        if [ ! -z $2 ]; then
+            virtualenv -p python3 ${VIRTUAL_ENV_PATH}/$2
+        fi
+    else
+        local ACTIVATE=${VIRTUAL_ENV_PATH}/$1/bin/activate
+        if [ -f ${ACTIVATE} ]; then
+            source ${ACTIVATE}
+        else
+            echo "$1 not exists"
+            return 2
+        fi
+    fi
+}
