@@ -95,12 +95,7 @@ function install_vscode() {
     return $exitCode
 }
 
-function install_emacs25() {
-    execute "sudo add-apt-repository ppa:kelleyk/emacs -y && sudo apt-get update"
-    install_package
-}
-
-function install_emacs25_nox() {
+function install_emacs_ppa() {
     execute "sudo add-apt-repository ppa:kelleyk/emacs -y && sudo apt-get update"
     install_package
 }
