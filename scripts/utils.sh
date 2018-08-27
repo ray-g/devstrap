@@ -74,6 +74,24 @@ function promote_yn() {
     esac
 }
 
+# Almost the same as 'promote_yn', the only difference is the default selection is No.
+function promote_ny() {
+    if [ "$#" -ne 2 ]; then
+        print_error "ERROR with promote_ny. Usage: promote_ny <Message> <Variable Name>"
+        print_fatal_error_msg_and_exit $FUNCNAME $@
+    fi
+
+    eval ${2}=$NO
+    print_question "$1 [Ny]"
+    read yn
+    DEBUG_PRINT "Entered $yn"
+    case $yn in
+        [Nn]*|'' ) eval ${2}=$NO;;
+        [Yy]* )    eval ${2}=$YES;;
+        *)         eval ${2}=$NO;;
+    esac
+}
+
 function ask_for_sudo() {
     # Ask for the administrator password upfront.
     sudo -v &> /dev/null
@@ -123,6 +141,17 @@ function DEBUG_BEGIN() {
 
 function DEBUG_END() {
     DEBUG && set +x
+}
+
+function continue_as_root() {
+    local _continue=$NO
+    if [[ $(whoami) == "root" ]]; then
+        promote_ny "Are you sure you want to execute as the user 'root'?" _continue
+    else
+        _continue=$YES
+    fi
+
+    [[ $_continue == $YES ]]
 }
 
 function trim_quote() {

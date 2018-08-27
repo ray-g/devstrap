@@ -7,6 +7,10 @@ if [[ ! -d "$BASE_DIR" ]]; then BASE_DIR="$PWD"; fi
 . "${BASE_DIR}/scripts/install/$(get_os)/main.sh"
 . "${BASE_DIR}/scripts/install/common/main.sh"
 
+if ! continue_as_root; then
+    exit 1
+fi
+
 parse_options $@
 
 if ! DRYRUN; then
