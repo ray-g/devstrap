@@ -4,6 +4,7 @@ BASE_DIR="${BASH_SOURCE%/*}"
 if [[ ! -d "$BASE_DIR" ]]; then BASE_DIR="$PWD"; fi
 
 . "${BASE_DIR}/scripts/utils.sh"
+. "${BASE_DIR}/scripts/install/versions.sh"
 . "${BASE_DIR}/scripts/install/$(get_os)/main.sh"
 . "${BASE_DIR}/scripts/install/common/main.sh"
 

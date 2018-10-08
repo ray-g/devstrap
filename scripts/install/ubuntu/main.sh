@@ -65,7 +65,7 @@ function remove_golang() {
 }
 
 function install_golang() {
-    local GO_VER="1.11.1"
+    local GO_VER=$DEVSTRAP_GO_VER
     local GO_OS="linux"
     local GO_ARCH="amd64"
 
@@ -101,7 +101,7 @@ function install_emacs_ppa() {
 }
 
 function install_ripgrep() {
-    local RG_VER="0.7.1"
+    local RG_VER=${DEVSTRAP_RG_VER}
     local RG_TAR="ripgrep-${RG_VER}-x86_64-unknown-linux-musl.tar.gz"
 
     if ! cmd_exists "${pkg_exe}"; then
@@ -120,7 +120,7 @@ function install_ripgrep() {
 }
 
 function install_fd() {
-    local FD_VER="7.0.0"
+    local FD_VER=${DEVSTRAP_FD_VER}
     local FD_DEB="fd_${FD_VER}_amd64.deb"
 
     if ! cmd_exists "${pkg_exe}"; then
@@ -136,11 +136,11 @@ function install_fd() {
 }
 
 function install_peco() {
-    local PECO_VER="v0.5.2"
+    local PECO_VER=${DEVSTRAP_PECO_VER}
     local PECO_TAR="peco_linux_amd64.tar.gz"
 
     if ! cmd_exists "${pkg_exe}"; then
-        execute "wget --no-check-certificate https://github.com/peco/peco/releases/download/${PECO_VER}/${PECO_TAR}" || return $?
+        execute "wget --no-check-certificate https://github.com/peco/peco/releases/download/v${PECO_VER}/${PECO_TAR}" || return $?
         execute "sudo mkdir -p /usr/local/peco && sudo tar -C /usr/local/peco --strip-components 1 -xzf ${PECO_TAR}"
         if [ ! -e "/usr/local/bin/peco" ]; then
             execute "sudo ln -s /usr/local/peco/peco /usr/local/bin/peco"
