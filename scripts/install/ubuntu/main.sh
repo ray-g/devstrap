@@ -54,6 +54,11 @@ function install_nodejs10() {
     install_package "nodejs" "NodeJS_10"
 }
 
+function upgrade_golang() {
+    remove_golang
+    install_golang
+}
+
 function remove_golang() {
     local GO_ROOT="/usr/local/go"
     local GO_EXE="go"
@@ -100,6 +105,23 @@ function install_emacs_ppa() {
     install_package
 }
 
+function upgrade_ripgrep() {
+    remove_ripgrep
+    install_ripgrep
+}
+
+function remove_ripgrep() {
+    local RG_ROOT="/usr/local/rg"
+    local RG_EXE="rg"
+    local RG_LINK="/usr/local/bin/rg"
+    if cmd_exists "${RG_EXE}"; then
+        if [[ -d "${RG_ROOT}" && "${RG_LINK}" == "$(which rg)" && "$(realpath ${RG_LINK})" == "${RG_ROOT}/rg" ]]; then
+            execute "sudo rm -rf ${RG_ROOT}"
+            execute "sudo rm ${RG_LINK}"
+        fi
+    fi
+}
+
 function install_ripgrep() {
     local RG_VER=${DEVSTRAP_RG_VER}
     local RG_TAR="ripgrep-${RG_VER}-x86_64-unknown-linux-musl.tar.gz"
@@ -119,19 +141,48 @@ function install_ripgrep() {
     fi
 }
 
+function upgrade_fd() {
+    always_install_fd
+}
+
 function install_fd() {
+    if ! cmd_exists "${pkg_exe}"; then
+        always_install_fd
+    else
+        return 0
+    fi
+}
+
+function always_install_fd() {
     local FD_VER=${DEVSTRAP_FD_VER}
     local FD_DEB="fd_${FD_VER}_amd64.deb"
 
-    if ! cmd_exists "${pkg_exe}"; then
+    # if ! cmd_exists "${pkg_exe}"; then
         execute "wget --no-check-certificate https://github.com/sharkdp/fd/releases/download/v${FD_VER}/${FD_DEB}" || return $?
         execute "sudo dpkg -i ${FD_DEB}"
         local exitCode=$?
         execute "rm ${FD_DEB}"
 
         return $exitCode
-    else
-        return 0
+    #else
+    #    return 0
+    #fi
+}
+
+function upgrade_peco() {
+    remove_peco
+    install_peco
+}
+
+function remove_peco() {
+    local PECO_ROOT="/usr/local/peco"
+    local PECO_EXE="peco"
+    local PECO_LINK="/usr/local/bin/peco"
+    if cmd_exists "${PECO_EXE}"; then
+        if [[ -d "${PECO_ROOT}" && "${RG_LINK}" == "$(which peco)" && "$(realpath ${PECO_LINK})" == "${PECO_ROOT}/peco" ]]; then
+            execute "sudo rm -rf ${PECO_ROOT}"
+            execute "sudo rm ${PECO_LINK}"
+        fi
     fi
 }
 

@@ -790,25 +790,31 @@ function install_it() {
 }
 
 function install_via_cmd() {
+    if fn_exists "${pkg_cmd}"; then
+    # install via a pre-defined command
+        print_info "Starting ${pkg_desc} ..."
+        DRYRUN && print_in_purple "↱     function ${pkg_cmd}     ↰\n"
+        ((_indent++))
+        eval "$pkg_cmd"
+        local exitCode=$?
+        ((_indent--))
+        DRYRUN && print_in_purple "↳     function ${pkg_cmd}     ↲\n"
+        print_result $exitCode "${pkg_desc}"
+    else
+        execute "$pkg_cmd" "$pkg_desc"
+    fi
+}
+
+function check_and_install_via_cmd() {
     if ! cmd_exists "${pkg_exe}"; then
-        if fn_exists "${pkg_cmd}"; then
-        # install via a pre-defined command
-            print_info "Starting ${pkg_desc} ..."
-            DRYRUN && print_in_purple "↱     function ${pkg_cmd}     ↰\n"
-            ((_indent++))
-            eval "$pkg_cmd"
-            local exitCode=$?
-            ((_indent--))
-            DRYRUN && print_in_purple "↳     function ${pkg_cmd}     ↲\n"
-            print_result $exitCode "${pkg_desc}"
-        else
-            execute "$pkg_cmd" "$pkg_desc"
-        fi
+        install_via_cmd
     else
         print_success "${pkg_desc}"
     fi
 }
-regist_pkg_installer "cmd" "install_via_cmd"
+
+regist_pkg_installer "cmd" "check_and_install_via_cmd"
+regist_pkg_installer "cmd_nc" "install_via_cmd"
 
 function install_print_seperator() {
     print_in_purple "\n • ${pkg_desc}\n\n"
