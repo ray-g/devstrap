@@ -26,15 +26,15 @@ function install_docker() {
     # execute "sudo ln -s /docker /var/lib/docker" || return $?
     # execute "echo 'DOCKER_OPTS=\"-g /docker\"' | sudo tee /etc/default/docker" || return $?
 
-    # Install Docker Compose
-    if ! cmd_exists "docker-compose"; then
-        if cmd_exists "pip"; then
-            execute "sudo pip install docker-compose" "Docker Compose"
-        else
-            print_error "Failed to install docker-compose. 'pip' is not installed properly"
-            return 1
-        fi
-    fi
+    # # Install Docker Compose
+    # if ! cmd_exists "docker-compose"; then
+    #     if cmd_exists "pip"; then
+    #         execute "sudo pip install docker-compose" "Docker Compose"
+    #     else
+    #         print_error "Failed to install docker-compose. 'pip' is not installed properly"
+    #         return 1
+    #     fi
+    # fi
 }
 
 function install_nodejs6() {

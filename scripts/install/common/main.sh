@@ -4,6 +4,7 @@ cd "$(dirname "${BASH_SOURCE[0]}")" \
     && . "npm.sh" \
     && . "go.sh" \
     && . "gem.sh" \
+    && . "pip.sh" \
     && . "env.sh" \
     && cd - &> /dev/null
 
