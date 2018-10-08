@@ -167,6 +167,16 @@ function install_dotfiles() {
     fi
 }
 
+function install_cn_mirrors() {
+    for filename in ${BASE_DIR}/dotfiles_cn/*; do
+        if [ -e $filename ]; then
+            # realpath not found in travis
+            create_link $(realpath $filename) ${HOME}/.$(basename ${filename})
+            # create_link $(readlink -f $filename) ${HOME}/.$(basename ${filename})
+        fi
+    done
+}
+
 function change_to_zsh() {
     if hash zsh 2> /dev/null; then
         print_info "Now enter ZSH"
