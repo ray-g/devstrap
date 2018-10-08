@@ -115,7 +115,7 @@ function install_dotfiles() {
         content+="# antigen bundle npm${newline}"
         content+="${newline}"
         content+="# thefuck alias${newline}"
-        content+="[ -x \"\$(command -v thefuck)\" ] && eval $(thefuck --alias)"
+        content+="[ -x \\\"\\\$(command -v thefuck)\\\" ] && eval \\\$(thefuck --alias)"
         execute "echo \"${content}\" > $filename" "Update file: $filename"
         print_info "You can set your personal configurations in $filename"
     fi
