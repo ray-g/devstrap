@@ -191,11 +191,11 @@ function change_to_zsh() {
 }
 
 function setup_env_only() {
-    install_omz
+    install_antigen
     install_omt
     install_emacsconf
     install_fzf
-    install_z
     install_dotfiles
+    install_cn_mirrors
     change_to_zsh
 }
