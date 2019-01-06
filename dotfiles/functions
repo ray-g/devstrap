@@ -405,3 +405,19 @@ function venv3() {
         fi
     fi
 }
+
+# Sync Git repo(s) of all direct subfolders
+function syncgits() {
+    if [ -d .git ]; then
+        git pull;
+    else
+        for entry in "."/*
+        do
+            if [[ -d "$entry" && -d "$entry/.git" ]]; then
+                pushd "$entry"
+                git pull
+                popd
+            fi
+        done
+    fi
+}
