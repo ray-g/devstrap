@@ -91,6 +91,13 @@ function install_golang() {
     fi
 }
 
+function install_rust() {
+    if ! cmd_exists "${pkg_exe}"; then
+        execute "curl https://sh.rustup.rs -sSf | sh -s -- --no-modify-path"
+        return $?
+    fi
+}
+
 function install_vscode() {
     local vscode="vscode_stable_devstrap.deb"
     execute "wget --no-check-certificate https://vscode-update.azurewebsites.net/latest/linux-deb-x64/stable -O $vscode" || return $?

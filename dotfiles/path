@@ -29,6 +29,12 @@ alias gopkgslist='ls -lah "${GOPATH_PKGS}/bin"'
 alias gopathlist='echo -e ${GOPATH//:/\\n}'
 
 #
+# Rust-Lang Environment Variables
+#
+RUST_CARGO_BIN=${HOME}/.cargo/bin
+export PATH=${PATH}:${RUST_CARGO_BIN}
+
+#
 # Add /sbin folder to PATH
 #
 export PATH=$PATH:/usr/local/sbin:/usr/sbin:/sbin
