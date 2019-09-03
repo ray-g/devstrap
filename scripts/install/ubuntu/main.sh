@@ -219,3 +219,20 @@ function install_bazel() {
     update || return $?
     install_package
 }
+
+function install_protobuf() {
+    # http://google.github.io/proto-lens/installing-protoc.html
+    local PB_VER=${DEVSTRAP_PROTOBUF_VER}
+    local PB_ZIP="protoc-${PB_VER}-linux-x86_64.zip"
+
+    if ! cmd_exists "${pkg_exe}"; then
+        execute "curl -OL https://github.com/google/protobuf/releases/download/v${PB_VER}/${PB_ZIP}"
+        execute "sudo unzip -o ${PB_ZIP} -d /usr/local bin/protoc && sudo unzip -o ${PB_ZIP} -d /usr/local include/*"
+        local exitCode=$?
+        execute "rm -f ${PB_ZIP}"
+
+        return $exitCode
+    else
+        return 0
+    fi
+}
