@@ -82,7 +82,7 @@ function install_golang() {
 
         if [ $exitCode -eq 0 ]; then
             # Successfully installed Golang, setup environment
-            export GOPATH="${HOME}/.gopath/cache"
+            export GOPATH="${HOME}/.go"
             export PATH=${GOPATH}/bin:/usr/local/go/bin:$PATH
         fi
         return $exitCode

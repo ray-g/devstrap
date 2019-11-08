@@ -15,18 +15,20 @@ export PATH="${HOME}/bin:/usr/local/bin:/usr/bin:/bin:/usr/bin/X11"
 #
 export GO_HOME=/usr/local/go
 export PATH=${GO_HOME}/bin:$PATH
-GOPATH_ROOT=${HOME}/.gopath
-GOPATH_CACHE=${GOPATH_ROOT}/cache
-GOPATH_PKGS=${GOPATH_ROOT}/pkgs
-GOPATH_PROJECTS=${HOME}/projects/go_projects
-export GOPATH=$GOPATH_CACHE:$GOPATH_PKGS:$GOPATH_PROJECTS
+# GOPATH_ROOT=${HOME}/.gopath
+# GOPATH_CACHE=${GOPATH_ROOT}/cache
+# GOPATH_PKGS=${GOPATH_ROOT}/pkgs
+# GOPATH_PROJECTS=${HOME}/projects/go_projects
+# export GOPATH=$GOPATH_CACHE:$GOPATH_PKGS:$GOPATH_PROJECTS
+export GOPATH=${HOME}/.go
 export PATH=$PATH:${GOPATH//://bin:}/bin
-alias gocachesync='cp -rfp ${GOPATH_CACHE}/* ${GOPATH_PKGS}/'
-alias gocacheclean='[ -d "$GOPATH_CACHE" ] && rm -rf ${GOPATH_CACHE}/*'
-alias gocachecleansrc='[ -d "$GOPATH_CACHE" ] && rm -rf ${GOPATH_CACHE}/src/* && rm -rf ${GOPATH_CACHE}/pkg/*'
-alias gocachelist='ls -lah "${GOPATH_CACHE}/bin"'
-alias gopkgslist='ls -lah "${GOPATH_PKGS}/bin"'
-alias gopathlist='echo -e ${GOPATH//:/\\n}'
+# alias gocachesync='cp -rfp ${GOPATH_CACHE}/* ${GOPATH_PKGS}/'
+# alias gocacheclean='[ -d "$GOPATH_CACHE" ] && rm -rf ${GOPATH_CACHE}/*'
+# alias gocachecleansrc='[ -d "$GOPATH_CACHE" ] && rm -rf ${GOPATH_CACHE}/src/* && rm -rf ${GOPATH_CACHE}/pkg/*'
+# alias gocachelist='ls -lah "${GOPATH_CACHE}/bin"'
+# alias gopkgslist='ls -lah "${GOPATH_PKGS}/bin"'
+# alias gopathlist='echo -e ${GOPATH//:/\\n}'
+alias goapplist="ls -lah ${GOPATH}/bin"
 
 #
 # Rust-Lang Environment Variables
