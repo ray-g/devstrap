@@ -37,21 +37,16 @@ function install_docker() {
     # fi
 }
 
-function install_nodejs6() {
-    # Install Node.JS
-    # https://nodejs.org/en/download/package-manager/#debian-and-ubuntu-based-linux-distributions
-    execute "curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash -" || return $?
-    install_package "nodejs" "NodeJS_6"
-}
-
-function install_nodejs8() {
-    execute "curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -" || return $?
-    install_package "nodejs" "NodeJS_8"
-}
-
+# Install Node.JS
+# https://nodejs.org/en/download/package-manager/#debian-and-ubuntu-based-linux-distributions
 function install_nodejs10() {
     execute "curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -" || return $?
     install_package "nodejs" "NodeJS_10"
+}
+
+function install_nodejs12() {
+    execute "curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -" || return $?
+    install_package "nodejs" "NodeJS_12"
 }
 
 function upgrade_golang() {
