@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # https://golang.org/dl/
-DEVSTRAP_GO_VER="1.15.7"
+DEVSTRAP_GO_VER="1.16.6"
 
 # https://github.com/BurntSushi/ripgrep/releases
 DEVSTRAP_RG_VER="11.0.2"
