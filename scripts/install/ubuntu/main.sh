@@ -219,10 +219,14 @@ function install_protobuf() {
     # http://google.github.io/proto-lens/installing-protoc.html
     local PB_VER=${DEVSTRAP_PROTOBUF_VER}
     local PB_ZIP="protoc-${PB_VER}-linux-x86_64.zip"
+    local PROTOC_INC_PATH="/usr/local/include/google"
+    local PROTOC_EXE_PATH="/usr/local/bin/protoc"
 
     if ! cmd_exists "${pkg_exe}"; then
         execute "curl -OL https://github.com/google/protobuf/releases/download/v${PB_VER}/${PB_ZIP}"
         execute "sudo unzip -o ${PB_ZIP} -d /usr/local bin/protoc && sudo unzip -o ${PB_ZIP} -d /usr/local include/*"
+        execute "sudo chmod o+rx ${PROTOC_EXE_PATH}"
+        execute "sudo chmod o+rx -R ${PROTOC_INC_PATH}"
         local exitCode=$?
         execute "rm -f ${PB_ZIP}"
 
@@ -230,4 +234,23 @@ function install_protobuf() {
     else
         return 0
     fi
+}
+
+function remove_protobuf() {
+    local PROTOC_EXE_PATH="/usr/local/bin/protoc"
+    local PROTOC_INC_PATH="/usr/local/include/google"
+    local PROTOC_EXE="protoc"
+    if cmd_exists "${PROTOC_EXE}"; then
+        if [ -f "${PROTOC_EXE_PATH}" ]; then
+            execute "sudo rm -f ${PROTOC_EXE_PATH}"
+        fi
+        if [ -d "${PROTOC_INC_PATH}" ]; then
+            execute "sudo rm -rf ${PROTOC_INC_PATH}"
+        fi
+    fi
+}
+
+function upgrade_protobuf() {
+    remove_protobuf
+    install_protobuf
 }

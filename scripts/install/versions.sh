@@ -13,4 +13,4 @@ DEVSTRAP_FD_VER="7.4.0"
 DEVSTRAP_PECO_VER="0.5.3"
 
 # https://github.com/google/protobuf/releases
-DEVSTRAP_PROTOBUF_VER="3.10.1"
+DEVSTRAP_PROTOBUF_VER="3.17.3"
