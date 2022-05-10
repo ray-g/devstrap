@@ -23,7 +23,7 @@ antigen bundle z
 antigen bundle tmux
 antigen bundle colorize
 antigen bundle history
-antigen bundle emacs
+# antigen bundle emacs
 antigen bundle copypath
 antigen bundle copyfile
 [[ $OSTYPE == darwin* ]] && antigen bundle osx
