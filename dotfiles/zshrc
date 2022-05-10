@@ -60,6 +60,9 @@ file=~/.zshrc.final.local
 [ -r "$file" ] && [ -f "$file" ] && source "$file"
 unset file
 
+# Source rust
+[ -f "$HOME/.cargo/env" ] && source "$HOME/.cargo/env"
+
 # Completion enhancements
 [ -f ~/.completion.zsh ] && source ~/.completion.zsh
 
